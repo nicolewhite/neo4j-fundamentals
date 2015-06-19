@@ -1,0 +1,1301 @@
+Fundamentals of Neo4j
+========================================================
+author: 
+date: 
+width: 1400
+height: 1000
+
+```{r, echo=FALSE}
+library(RNeo4j)
+file = 'import.txt'
+data = readChar(file, file.info(file)$size)
+graph = startGraph("http://localhost:7474/db/data/")
+clear(graph, input = F)
+tx = newTransaction(graph)
+appendCypher(tx, data)
+commit(tx)
+```
+
+Setup
+========================================================
+
+- Go to `neo4j.com`
+- Click on Download Neo4j
+- Download the Community Edition
+
+### Mac
+
+- Unzip the `.tar.gz` file (double-click it)
+- `cd` to the extracted directory in the Terminal
+- Execute `./bin/neo4j start`
+- Go to `localhost:7474` in your browser
+
+### Windows
+
+- Double-click the downloaded `.exe` file
+- Run Neo4j after installation finishes
+- Click Start
+- Go to `localhost:7474` in your browser
+
+Agenda
+========================================================
+
+- Cypher: Syntax Basics
+- Cypher: Match & Return
+- Cypher: Constraints & Indexes
+- Cypher: LOAD CSV
+
+Today's Data
+========================================================
+
+`http://github.com/nicolewhite/neo4j-fundamentals`
+
+### Unix
+
+- Copy the contents of `import.txt` into the Neo4j Browser and run
+
+### Windows
+
+- Unzip `windows_db.zip` (double-click it)
+- Navigate to the extracted `graph.db` folder with Neo4j's 'Browse' button
+- Click `Start`
+
+Section Header
+========================================================
+title: false
+
+# Cypher: Syntax Basics
+
+Drawing Graph Patterns 
+========================================================
+
+### Nodes
+
+`()`
+
+### Relationships
+
+`[]`
+
+### Paths
+
+`()-[]-()`
+
+`()-[]->()`
+
+`()<-[]-()`
+
+Identifiers, Node Labels, & Relationship Types
+========================================================
+
+### Query
+
+```
+MATCH (t:Terminal) 
+RETURN t
+```
+
+### Notes
+- `t` is an identifier
+- `Terminal` is a node label
+
+Identifiers, Node Labels, & Relationship Types
+========================================================
+
+### Query
+
+```
+MATCH (x:Terminal) 
+RETURN x
+```
+
+### Notes
+- Identifiers can be whatever you want
+- This query and the query from the previous slide are identical in terms of output
+
+Identifiers, Node Labels, & Relationship Types
+========================================================
+
+### Query
+
+```
+MATCH (g:Gate)-[r:IN_TERMINAL]->(t:Terminal) 
+RETURN g, r, t
+```
+
+### Notes
+- `g`, `r`, and `t` are identifiers
+- `Gate` and `Terminal` are node labels
+- `IN_TERMINAL` is a relationship type
+
+Identifiers, Node Labels, & Relationship Types
+========================================================
+
+### Query
+
+```
+MATCH p = (:Gate)-[:IN_TERMINAL]->(:Terminal)
+RETURN p
+```
+
+### Notes
+- `p` is an identifier
+- `Gate` and `Terminal` are node labels
+- `IN_TERMINAL` is a relationship type
+- The identifiers `g`, `r`, and `t` are no longer necessary; the entire path has been assigned to the identifier `p`
+- This query and the query from the previous slide are identical in terms of output
+
+Graph versus Tabular Results
+========================================================
+
+### Graph Result
+
+#### Query
+
+```
+MATCH (t:Terminal) 
+RETURN t
+```
+
+#### Notes
+- Returning the identifier `t` returns the node entity
+- This query will return a graph in the Neo4j Browser
+
+### Tabular Result
+
+#### Query
+
+```
+MATCH (t:Terminal) 
+RETURN t.name
+```
+
+#### Notes
+- Properties are accessed with `{identifier}.{property}`
+- This query will return a table in the Neo4j Browser
+
+Section Header
+========================================================
+title: false
+
+# Cypher: Match & Return
+
+Aliasing in the RETURN Clause
+========================================================
+
+**Category names.**
+
+```{r, echo=FALSE}
+query = 
+"MATCH (c:Category)
+RETURN c.name AS category"
+```
+
+### Query
+```{r, echo=FALSE}
+cat(query)
+```
+
+### Results
+```{r, echo=FALSE}
+print(cypher(graph, query), row.names = F)
+```
+
+The WHERE Clause
+========================================================
+
+**Names of barbecue places.**
+
+```{r, echo=FALSE}
+query = 
+"MATCH (p:Place)-[:IN_CATEGORY]->(c:Category)
+WHERE c.name = 'Barbecue'
+RETURN p.name AS barbecue"
+```
+
+### Query
+```{r, echo=FALSE}
+cat(query)
+```
+
+### Results
+```{r, echo=FALSE}
+print(cypher(graph, query), row.names = F)
+```
+
+Shorthand WHERE Conditioning
+========================================================
+
+**Names of barbecue places.**
+
+```{r, echo=FALSE}
+query = 
+"MATCH (p:Place)-[:IN_CATEGORY]->(:Category {name:'Barbecue'})
+RETURN p.name AS barbecue"
+```
+
+### Query
+```{r, echo=FALSE}
+cat(query)
+```
+
+### Result
+```{r, echo=FALSE}
+print(cypher(graph, query), row.names = F)
+```
+
+Aggregation
+========================================================
+
+**Categories and the count of how many places are in that category.**
+
+```{r, echo=FALSE}
+query = 
+"MATCH (:Place)-[:IN_CATEGORY]->(c:Category)
+RETURN c.name AS category, COUNT(*) AS places"
+```
+
+### Query
+```{r, echo=FALSE}
+cat(query)
+```
+
+### Result
+```{r, echo=FALSE}
+print(cypher(graph, query), row.names = F)
+```
+
+The ORDER BY and LIMIT Clauses
+========================================================
+
+**Top five categories ordered descending by the count of how many places are in that category.**
+
+```{r, echo=FALSE}
+query = 
+"MATCH (:Place)-[:IN_CATEGORY]->(c:Category)
+RETURN c.name AS category, COUNT(*) AS places
+ORDER BY places DESC
+LIMIT 5"
+```
+
+### Query
+```{r, echo=FALSE}
+cat(query)
+```
+
+### Result
+```{r, echo=FALSE}
+print(cypher(graph, query), row.names = F)
+```
+
+Lab
+========================================================
+
+**List the bars in alphabetical order.**
+
+Lab
+========================================================
+
+**List the bars in alphabetical order.**
+
+```{r, echo=FALSE}
+query = 
+"MATCH (p:Place)-[:IN_CATEGORY]->(c:Category)
+WHERE c.name = 'Bar'
+RETURN p.name AS place
+ORDER BY place"
+```
+
+### Query
+```{r, echo=FALSE}
+cat(query)
+```
+
+### Result
+```{r, echo=FALSE}
+print(cypher(graph, query), row.names = F)
+```
+
+Multiple Patterns in the MATCH Clause
+========================================================
+
+**The gate number of where the bars are located.**
+
+```{r, echo=FALSE}
+query = 
+"MATCH (p:Place)-[:IN_CATEGORY]->(c:Category),
+      (p)-[:AT_GATE]->(g:Gate)
+WHERE c.name = 'Bar'
+RETURN p.name AS place, g.number AS gate
+"
+```
+
+### Query
+```{r, echo=FALSE}
+cat(query)
+```
+
+### Result
+```{r, echo=FALSE}
+print(cypher(graph, query), row.names = F)
+```
+
+Multiple Patterns in the MATCH Clause
+========================================================
+
+**The gate number and terminal of where the bars are located.**
+
+```{r, echo=FALSE}
+query = 
+"MATCH (p:Place)-[:IN_CATEGORY]->(c:Category),
+      (p)-[:AT_GATE]->(g:Gate),
+      (g)-[:IN_TERMINAL]->(t:Terminal)
+WHERE c.name = 'Bar'
+RETURN p.name AS place, g.number AS gate, t.name AS terminal
+ORDER BY place
+"
+```
+
+### Query
+```{r, echo=FALSE}
+cat(query)
+```
+
+### Result
+```{r, echo=FALSE}
+print(cypher(graph, query), row.names = F)
+```
+
+Multiple Patterns in the MATCH Clause
+========================================================
+
+**The closest coffee place to gate 10 in terminal B.**
+
+```{r, echo=FALSE}
+query = 
+"MATCH (p:Place)-[:IN_CATEGORY]->(c:Category),
+      (p)-[:AT_GATE]->(g:Gate),
+      (g)-[:IN_TERMINAL]->(t:Terminal)
+WHERE c.name = 'Coffee' AND t.name = 'B'
+RETURN p.name AS place, 
+       ABS(g.number - 10) AS distance, 
+       g.number AS gate, 
+       t.name AS terminal
+ORDER BY distance
+"
+```
+
+### Query
+```{r, echo=FALSE}
+cat(query)
+```
+
+### Result
+```{r, echo=FALSE}
+print(cypher(graph, query), row.names = F)
+```
+
+Lab
+========================================================
+
+**Find all of the Dunkin Donuts locations. Return the terminal and gate.**
+
+Lab
+========================================================
+
+**Find all of the Dunkin Donuts locations. Return the terminal and gate.**
+
+```{r, echo=FALSE}
+query = 
+"MATCH (donuts:Place {name:'Dunkin Donuts'}),
+      (donuts)-[:AT_GATE]->(g:Gate),
+      (g)-[:IN_TERMINAL]->(t:Terminal)
+RETURN t.name AS terminal, g.number AS gate
+ORDER BY terminal, gate
+"
+```
+
+### Query
+```{r, echo=FALSE}
+cat(query)
+```
+
+### Result
+```{r, echo=FALSE}
+print(cypher(graph, query), row.names = F)
+```
+
+Negating Patterns in the WHERE Clause
+========================================================
+
+**Two users who have both liked Blimpie but are not friends.**
+
+```{r, echo=FALSE}
+query = 
+"MATCH (u1:User)-[:LIKED]->(p:Place)<-[:LIKED]-(u2:User)
+WHERE p.name = 'Blimpie' AND NOT (u1)-[:FRIENDS_WITH]-(u2)
+RETURN u1, u2, p
+"
+```
+
+### Query
+```{r, echo=FALSE}
+cat(query)
+invisible(getNodes(graph, query))
+```
+
+Lab
+========================================================
+
+**Find places that Alice has liked but not checked into.**
+
+Lab
+========================================================
+
+**Find places that Alice has liked but not checked into.**
+
+```{r, echo=FALSE}
+query = 
+"MATCH (alice:User)-[:LIKED]->(p:Place)
+WHERE alice.name = 'Alice' AND NOT (alice)-[:CHECKED_INTO]->(p)
+RETURN p.name AS place
+"
+```
+
+### Query
+```{r, echo=FALSE}
+cat(query)
+```
+
+### Result
+```{r, echo=FALSE}
+print(cypher(graph, query), row.names = F)
+```
+
+The OPTIONAL MATCH Clause
+========================================================
+
+**Users and how many friends they have. If using MATCH, only users who have at least one friend are returned.**
+
+```{r, echo=FALSE}
+query = "MATCH (u:User)-[:FRIENDS_WITH]-(f:User)
+RETURN u.name AS user, COUNT(f) AS friends
+ORDER BY friends DESC
+"
+```
+
+### Query
+```{r, echo=FALSE}
+cat(query)
+```
+
+### Result
+```{r, echo=FALSE}
+print(cypher(graph, query), row.names = F)
+```
+
+The OPTIONAL MATCH Clause
+========================================================
+
+**Users and how many friends they have. If using OPTIONAL MATCH, all users are returned, including users who have no friends.**
+
+```{r, echo=FALSE}
+query = "MATCH (u:User)
+OPTIONAL MATCH (u)-[:FRIENDS_WITH]-(f:User)
+RETURN u.name AS user, COUNT(f) AS friends
+ORDER BY friends DESC
+"
+```
+
+### Query
+```{r, echo=FALSE}
+cat(query)
+```
+
+### Result
+```{r, echo=FALSE}
+print(cypher(graph, query), row.names = F)
+```
+
+The COLLECT Function
+========================================================
+
+**Users and how many friends they have, along with the names of those friends.**
+
+```{r, echo=FALSE}
+query = "MATCH (u:User)
+OPTIONAL MATCH (u)-[:FRIENDS_WITH]-(f:User)
+RETURN u.name AS user, 
+       COUNT(f) AS friends, 
+       COLLECT(f.name) AS friends_names
+ORDER BY friends DESC
+"
+```
+
+### Query
+```{r, echo=FALSE}
+cat(query)
+```
+
+### Result
+```{r, echo=FALSE}
+data = cypher(graph, query)
+data[7:10, 3] = ""
+print(data, row.names = F)
+```
+
+The WITH Clause
+========================================================
+
+**Users and how many friends they have, along with the names of those friends. Return only users with 2 or more friends.**
+
+```{r, echo=FALSE}
+query = "MATCH (u:User)-[:FRIENDS_WITH]-(f:User)
+WITH u.name AS user, 
+     COUNT(f) AS friends, 
+     COLLECT(f.name) AS friends_names
+WHERE friends >= 2
+RETURN user, friends, friends_names
+ORDER BY friends DESC
+"
+```
+
+### Query
+```{r, echo=FALSE}
+cat(query)
+```
+
+### Result
+```{r, echo=FALSE}
+print(cypher(graph, query), row.names = F)
+```
+
+The WITH Clause
+========================================================
+
+**Users and how many friends they have, along with the names of those friends.**
+**Return only users with 2 or more friends and who are friends with Hank.**
+
+```{r, echo=FALSE}
+query = "MATCH (u:User)-[:FRIENDS_WITH]-(f:User)
+WITH u.name AS user, 
+     COUNT(f) AS friends, 
+     COLLECT(f.name) AS friends_names
+WHERE friends >= 2 AND 'Hank' IN friends_names
+RETURN user, friends, friends_names
+ORDER BY friends DESC
+"
+```
+
+### Query
+```{r, echo=FALSE}
+cat(query)
+```
+
+### Result
+```{r, echo=FALSE}
+print(cypher(graph, query), row.names = F)
+```
+
+OR with Relationship Types
+========================================================
+
+**Fast food places that Alice has either liked or checked into.**
+
+```{r, echo=FALSE}
+query = 
+"MATCH (alice:User)-[r:LIKED|CHECKED_INTO]->(place:Place),
+      (place)-[:IN_CATEGORY]->(c:Category)
+WHERE alice.name = 'Alice' AND c.name = 'Fast Food'
+RETURN place.name AS place, TYPE(r) AS type
+"
+```
+
+### Query
+```{r, echo=FALSE}
+cat(query)
+```
+
+### Result
+```{r, echo=FALSE}
+print(cypher(graph, query), row.names = F)
+```
+
+Relationship Properties
+========================================================
+
+**The places that Alice has liked and the score she gave the place.**
+
+```{r, echo=FALSE}
+query = 
+"MATCH (alice:User)-[r:LIKED]->(p:Place)
+WHERE alice.name = 'Alice'
+RETURN p.name AS place, r.score AS score
+ORDER BY score DESC
+"
+```
+
+### Query
+```{r, echo=FALSE}
+cat(query)
+```
+
+### Result
+```{r, echo=FALSE}
+print(cypher(graph, query), row.names = F)
+```
+
+Recommendations
+========================================================
+
+**Fast food or dessert & snack places that Alice's friends have liked ordered by the average score her friends gave the place.**
+**Alice can't have already liked or checked into the place.**
+
+```{r, echo=FALSE}
+query = 
+"MATCH (alice:User)-[:FRIENDS_WITH]-(friend:User),
+      (friend)-[r:LIKED]->(place:Place),
+      (place)-[:IN_CATEGORY]->(c:Category)
+WHERE alice.name = 'Alice' AND 
+      c.name IN ['Fast Food', 'Desserts & Snacks'] AND
+      NOT (alice)-[:LIKED|CHECKED_INTO]->(place)
+RETURN place.name AS place, AVG(r.score) AS avg_score
+ORDER BY avg_score DESC
+"
+```
+
+### Query
+```{r, echo=FALSE}
+cat(query)
+```
+
+### Result
+```{r, echo=FALSE}
+print(cypher(graph, query), row.names = F)
+```
+
+Lab
+========================================================
+
+**Find all places that have received a score of 10 from any user. Return the place's name and the user's name.**
+
+Lab
+========================================================
+
+**Find all places that have received a score of 10 from any user. Return the place's name and the user's name.**
+
+```{r, echo=FALSE}
+query = 
+"MATCH (u:User)-[r:LIKED]->(p:Place)
+WHERE r.score = 10
+RETURN u.name AS user, p.name AS place
+"
+```
+
+### Query
+```{r, echo=FALSE}
+cat(query)
+```
+
+### Result
+```{r, echo=FALSE}
+options(digits=3)
+print(cypher(graph, query), row.names = F)
+```
+
+Dealing with NULL Values
+========================================================
+
+**Fast food places that Alice has either liked or checked into and the score she gave them, if any.**
+
+```{r, echo=FALSE}
+query = 
+"MATCH (alice:User)-[r:LIKED|CHECKED_INTO]->(place:Place),
+      (place)-[:IN_CATEGORY]->(c:Category)
+WHERE alice.name = 'Alice' AND c.name = 'Fast Food'
+RETURN place.name AS place, r.score AS score
+"
+```
+
+### Query
+```{r, echo=FALSE}
+cat(query)
+```
+
+### Result
+```{r, echo=FALSE}
+data = cypher(graph, query)
+data[is.na(data)] = "null"
+print(data, row.names = F)
+```
+
+Dealing with NULL Values
+========================================================
+
+**Fast food places that Alice has either liked or checked into and the score she gave them, if any.**
+
+```{r, echo=FALSE}
+query = 
+"MATCH (alice:User)-[r:LIKED|CHECKED_INTO]->(place:Place),
+      (place)-[:IN_CATEGORY]->(c:Category)
+WHERE alice.name = 'Alice' AND c.name = 'Fast Food'
+RETURN place.name AS place, 
+       COALESCE(r.score, 'No Score') AS score
+"
+```
+
+### Query
+```{r, echo=FALSE}
+cat(query)
+```
+
+### Result
+```{r, echo=FALSE}
+print(cypher(graph, query), row.names = F)
+```
+
+Dealing with NULL Values
+========================================================
+
+**Fast food places that Alice has either liked or checked into and the score she gave them, if any.**
+
+```{r, echo=FALSE}
+query = 
+"MATCH (alice:User)-[r:LIKED|CHECKED_INTO]->(place:Place),
+      (place)-[:IN_CATEGORY]->(c:Category)
+WHERE alice.name = 'Alice' AND c.name = 'Fast Food'
+RETURN place.name AS place, 
+       TYPE(r) AS action, 
+       COALESCE(r.score, 'No Score') AS score
+"
+```
+
+### Query
+```{r, echo=FALSE}
+cat(query)
+```
+
+### Result
+```{r, echo=FALSE}
+print(cypher(graph, query), row.names = F)
+```
+
+Paths
+========================================================
+
+**Who do Charles and David know each other through?**
+
+```{r, echo=FALSE}
+query = 
+"MATCH p = (a:User)-[:FRIENDS_WITH*]-(b:User)
+WHERE a.name = 'Charles' AND b.name = 'David'
+RETURN p
+"
+```
+
+### Query
+```{r, echo=FALSE}
+cat(query)
+```
+
+```{r, echo=FALSE}
+invisible(getPaths(graph, query))
+```
+
+Paths
+========================================================
+
+**Who do Charles and David know each other through?**
+
+```{r, echo=FALSE}
+query = 
+"MATCH p = (a:User)-[:FRIENDS_WITH*]-(b:User)
+WHERE a.name = 'Charles' AND b.name = 'David'
+RETURN LENGTH(p) AS path_length
+"
+```
+
+### Query
+```{r, echo=FALSE}
+cat(query)
+```
+
+### Result
+```{r, echo=FALSE}
+print(cypher(graph, query), row.names = F)
+```
+
+Paths
+========================================================
+
+**Who do Charles and David know each other through? Return the name property from all the nodes on the path.**
+
+```{r, echo=FALSE}
+query = 
+"MATCH p = (a:User)-[:FRIENDS_WITH*]-(b:User)
+WHERE a.name = 'Charles' AND b.name = 'David'
+RETURN EXTRACT(x IN NODES(p) | x.name) AS nodes,
+       LENGTH(p) AS path_length
+"
+```
+
+### Query
+```{r, echo=FALSE}
+cat(query)
+```
+
+### Result
+```{r, echo=FALSE}
+print(cypher(graph, query), row.names = F)
+```
+
+Paths
+========================================================
+
+**Who do Charles and David know each other through? Search for an exact path length of 3.**
+
+```{r, echo=FALSE}
+query = 
+"MATCH p = (a:User)-[:FRIENDS_WITH*3]-(b:User)
+WHERE a.name = 'Charles' AND b.name = 'David'
+RETURN EXTRACT(x IN NODES(p) | x.name) AS nodes, 
+       LENGTH(p) AS path_length
+"
+```
+
+### Query
+```{r, echo=FALSE}
+cat(query)
+```
+
+### Result
+```{r, echo=FALSE}
+print(cypher(graph, query), row.names = F)
+```
+
+Paths
+========================================================
+
+**Who do Charles and David know each other through? Search for paths up to length-five.**
+
+```{r, echo=FALSE}
+query = 
+"MATCH p = (a:User)-[:FRIENDS_WITH*..5]-(b:User)
+WHERE a.name = 'Charles' AND b.name = 'David'
+RETURN EXTRACT(x IN NODES(p) | x.name) AS nodes,
+       LENGTH(p) AS path_length
+"
+```
+
+### Query
+```{r, echo=FALSE}
+cat(query)
+```
+
+### Result
+```{r, echo=FALSE}
+print(cypher(graph, query), row.names = F)
+```
+
+Collection Predicates
+========================================================
+
+**Who do Charles and David know each other through? Search for paths up to length-five. Forrest must be on the path.**
+
+```{r, echo=FALSE}
+query = 
+"MATCH p = (a:User)-[:FRIENDS_WITH*..5]-(b:User)
+WHERE a.name = 'Charles' AND 
+      b.name = 'David' AND
+      ANY(x IN NODES(p) WHERE x.name = 'Forrest')
+RETURN EXTRACT(x IN NODES(p) | x.name) AS nodes,
+       LENGTH(p) AS path_length
+"
+```
+
+### Query
+```{r, echo=FALSE}
+cat(query)
+```
+
+### Result
+```{r, echo=FALSE}
+print(cypher(graph, query), row.names = F)
+```
+
+Collection Predicates
+========================================================
+
+**Who do Charles and David know each other through? Search for paths up to length-five. No one on the path can have liked Fly Bar.**
+
+```{r, echo=FALSE}
+query = 
+"MATCH p = (a:User)-[:FRIENDS_WITH*..5]-(b:User)
+WHERE a.name = 'Charles' AND 
+      b.name = 'David' AND
+      NONE(x IN NODES(p) 
+           WHERE (x)-[:LIKED]->(:Place {name:'Fly Bar'})
+      )
+RETURN EXTRACT(x IN NODES(p) | x.name) AS nodes,
+       LENGTH(p) AS path_length
+"
+```
+
+### Query
+```{r, echo=FALSE}
+cat(query)
+```
+
+### Result
+```{r, echo=FALSE}
+print(cypher(graph, query), row.names = F)
+```
+
+Shortest Path
+========================================================
+
+**What's the shortest path between Greta and Wendy's?**
+
+```{r, echo=FALSE}
+query = 
+"MATCH p = shortestPath((greta:User)-[*]-(wendy:Place))
+WHERE greta.name = 'Greta' AND wendy.name = 'Wendy\\'s'
+RETURN p
+"
+```
+
+### Query
+```{r, echo=FALSE}
+cat(query)
+invisible(getPaths(graph, query))
+```
+
+Shortest Path
+========================================================
+
+**What's the shortest path between Greta and Wendy's through likes?**
+
+```{r, echo=FALSE}
+query = 
+"MATCH p = shortestPath((greta:User)-[:LIKED*]-(wendy:Place))
+WHERE greta.name = 'Greta' AND wendy.name = 'Wendy\\'s'
+RETURN p
+"
+```
+
+### Query
+```{r, echo=FALSE}
+cat(query)
+invisible(getPaths(graph, query))
+```
+
+All Shortest Paths
+========================================================
+
+**Find all shortest paths between Greta and Wendy's through likes.**
+
+```{r, echo=FALSE}
+query = 
+"MATCH p = allShortestPaths((greta:User)-[:LIKED*]-(wendy:Place))
+WHERE greta.name = 'Greta' AND wendy.name = 'Wendy\\'s'
+RETURN p
+"
+```
+
+### Query
+```{r, echo=FALSE}
+cat(query)
+invisible(getPaths(graph, query))
+```
+
+Lab
+========================================================
+**Find all shortest paths between Greta and Wendy's through likes. Grove Natural Snacks can't be on the path.**
+
+Lab
+========================================================
+**Find all shortest paths between Greta and Wendy's through likes. Grove Natural Snacks can't be on the path.**
+
+```{r, echo=FALSE}
+query = 
+"MATCH p = allShortestPaths((greta:User)-[:LIKED*]-(wendy:Place))
+WHERE greta.name = 'Greta' AND 
+      wendy.name = 'Wendy\\'s' AND
+      NONE(x IN NODES(p)
+		   WHERE x.name = 'Grove Natural Snacks')
+RETURN p
+"
+```
+
+### Query
+```{r, echo=FALSE}
+cat(query)
+invisible(getPaths(graph, query))
+```
+
+Section Header
+========================================================
+title: false
+
+# Cypher: Constraints & Indexes
+
+View Constraints and Indexes Already Online
+========================================================
+
+Enter `:schema` into the Neo4j Browser
+
+Add a Uniqueness Constraint
+========================================================
+
+```{r, echo=FALSE}
+query = "CREATE CONSTRAINT ON (u:User) ASSERT u.name IS UNIQUE"
+```
+
+### Query
+```{r, echo=FALSE}
+cat(query)
+invisible(cypher(graph, query))
+```
+
+### Notes
+- Adding a uniqueness constraint also creates an index on the node label, node property pair
+- Check this with `:schema` in the Neo4j Browser
+- Adding a uniqueness constraint to already-existing data that violates the uniqueness constraint results in an error
+
+Adding Data that Violates a Uniqueness Constraint
+========================================================
+
+```{r, echo=FALSE}
+query = "CREATE (:User {name:'Your Name'})"
+```
+
+### Query
+```{r, echo=FALSE}
+cat(query)
+d = try(cypher(graph, query), silent=T)
+cat(substring(d, 1, 112))
+```
+
+### Notes
+- If you followed along and already created a User node with your name, this will result in an error
+- Use the `MERGE` clause instead
+
+Add an Index
+========================================================
+
+```{r, echo=FALSE}
+query = "CREATE INDEX ON :Gate(number)"
+```
+
+### Query
+```{r, echo=FALSE}
+cat(query)
+invisible(cypher(graph, query))
+```
+
+### Notes
+- There are multiple gates with the same gate number; a uniqueness constraint is not appropriate
+
+Section Header
+========================================================
+title: false
+
+# Cypher: LOAD CSV
+
+```{r, echo=FALSE}
+clear(graph, input = F)
+```
+
+Setup
+========================================================
+
+### Clear Your DB
+```{r, echo=FALSE}
+query = 
+"MATCH (n) OPTIONAL MATCH (n)-[r]-() DELETE n, r
+"
+```
+
+```{r, echo=FALSE}
+cat(query)
+invisible(cypher(graph, query))
+```
+
+### Filepaths
+
+#### OSX and Unix 
+`file:///path/to/data.csv`
+
+#### Windows
+`file:C:/path/to/data.csv`
+
+Uniqueness Constraints & Indexes
+========================================================
+
+```{r, echo=FALSE}
+query1 = "CREATE CONSTRAINT ON (t:Terminal) ASSERT t.name IS UNIQUE;"
+query2 = "CREATE CONSTRAINT ON (p:Place) ASSERT p.name IS UNIQUE;"
+query3 = "CREATE CONSTRAINT ON (u:User) ASSERT u.name IS UNIQUE;"
+query4 = "CREATE INDEX ON :Gate(number);"
+```
+
+```{r, echo=FALSE}
+cat(query1)
+cat(query2)
+cat(query3)
+cat(query4)
+invisible(cypher(graph, query1))
+invisible(cypher(graph, query2))
+invisible(cypher(graph, query3))
+invisible(cypher(graph, query4))
+```
+
+Gates & Terminals
+========================================================
+
+`gates_terminals.csv`
+
+```{r, echo=FALSE}
+query = 
+"LOAD CSV WITH HEADERS FROM {filepath} AS line
+MERGE (t:Terminal {name: line.terminal })
+MERGE (:Gate {number: TOINT(line.gate )})-[:IN_TERMINAL]->(t);
+"
+```
+
+### Query
+```{r, echo=FALSE}
+cat(query)
+invisible(cypher(graph, query, filepath=paste0("file://", WORKING_DIRECTORY, "csv/gates_terminals.csv")))
+```
+
+Places
+========================================================
+
+`places.csv`
+
+```{r, echo=FALSE}
+query = 
+"LOAD CSV WITH HEADERS FROM {filepath} AS line
+MATCH (t:Terminal {name: line.terminal })
+MATCH (gate:Gate {number: TOINT(line.gate) })-[:IN_TERMINAL]->(t)
+MERGE (place:Place {name: line.place })
+MERGE (place)-[:AT_GATE]->(gate);
+"
+```
+
+### Query
+```{r, echo=FALSE}
+cat(query)
+invisible(cypher(graph, query, filepath=paste0("file://", WORKING_DIRECTORY, "csv/places.csv")))
+```
+
+Users
+========================================================
+
+`users.csv`
+
+```{r, echo=FALSE}
+query = 
+"LOAD CSV WITH HEADERS FROM {filepath} AS line
+MERGE (:User {name: line.user })
+"
+```
+
+### Query
+```{r, echo=FALSE}
+cat(query)
+invisible(cypher(graph, query, filepath=paste0("file://", WORKING_DIRECTORY, "csv/users.csv")))
+```
+
+Friends
+========================================================
+
+`friends.csv`
+
+```{r, echo=FALSE}
+query = 
+"LOAD CSV WITH HEADERS FROM {filepath} AS line
+MATCH (a:User {name: line.user_a })
+MATCH (b:User {name: line.user_b })
+MERGE (a)-[:FRIENDS_WITH]-(b);
+"
+```
+
+### Query
+```{r, echo=FALSE}
+cat(query)
+invisible(cypher(graph, query, filepath=paste0("file://", WORKING_DIRECTORY, "csv/friends.csv")))
+```
+
+Check-Ins
+========================================================
+
+`check_ins.csv`
+
+```{r, echo=FALSE}
+query = 
+"LOAD CSV WITH HEADERS FROM {filepath} AS line
+MATCH (place:Place {name: line.place })
+MATCH (user:User {name: line.user })
+MERGE (user)-[:CHECKED_INTO]->(place);
+"
+```
+
+### Query
+```{r, echo=FALSE}
+cat(query)
+invisible(cypher(graph, query, filepath=paste0("file://", WORKING_DIRECTORY, "csv/check_ins.csv")))
+```
+
+Likes
+========================================================
+
+`likes.csv`
+
+```{r, echo=FALSE}
+query = 
+"LOAD CSV WITH HEADERS FROM {filepath} AS line
+MATCH (place:Place {name: line.place })
+MATCH (user:User {name: line.user })
+MERGE (user)-[r:LIKED]->(place)
+SET r.score = TOINT(line.score);
+"
+```
+
+### Query
+```{r, echo=FALSE}
+cat(query)
+invisible(cypher(graph, query, filepath=paste0("file://", WORKING_DIRECTORY, "csv/likes.csv")))
+```
+
+Lab
+========================================================
+
+`categories.csv`
+
+Import the categories and attach the places to the correct category.
+
+Lab
+========================================================
+
+`categories.csv`
+
+```{r, echo=FALSE}
+query = 
+"LOAD CSV WITH HEADERS FROM {filepath} AS line
+MATCH (place:Place {name: line.place })
+MATCH (category:Category {name: line.category})
+MERGE (place)-[:IN_CATEGORY]->(category)
+"
+```
+
+### Query
+```{r, echo=FALSE}
+cat(query)
+invisible(cypher(graph, query, filepath=paste0("file://", WORKING_DIRECTORY, "csv/categories.csv")))
+```
+
+More LOAD CSV
+========================================================
+`neo4j.com/blog/webinar-using-load-csv-real-world`
