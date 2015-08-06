@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<body> 
+ <style>
+.link {
+stroke: #666;
+opacity: 0.6;
+stroke-width: 1.5px;
+}
+.node circle {
+stroke: #fff;
+opacity: 0.6;
+stroke-width: 1.5px;
+}
+.node:not(:hover) .nodetext {
+display: none;
+}
+text {
+font: 7px serif;
+opacity: 0.6;
+pointer-events: none;
+}
+</style>
+
+<script src=http://d3js.org/d3.v3.min.js></script>
+
+<script> 
+ var links = [ { "source" : 0, "target" : 1 }, { "source" : 1, "target" : 3 }, { "source" : 0, "target" : 9 }, { "source" : 2, "target" : 14 }, { "source" : 3, "target" : 18 }, { "source" : 3, "target" : 9 }, { "source" : 4, "target" : 26 }, { "source" : 5, "target" : 1 }, { "source" : 6, "target" : 2 }, { "source" : 6, "target" : 1 }, { "source" : 7, "target" : 23 }, { "source" : 3, "target" : 6 }, { "source" : 5, "target" : 6 }, { "source" : 8, "target" : 32 }, { "source" : 9, "target" : 12 }, { "source" : 10, "target" : 12 }, { "source" : 6, "target" : 5 }, { "source" : 11, "target" : 9 }, { "source" : 12, "target" : 22 }, { "source" : 9, "target" : 0 }, { "source" : 6, "target" : 14 }, { "source" : 13, "target" : 16 }, { "source" : 9, "target" : 22 }, { "source" : 5, "target" : 14 }, { "source" : 7, "target" : 24 }, { "source" : 9, "target" : 24 }, { "source" : 13, "target" : 25 }, { "source" : 3, "target" : 13 }, { "source" : 1, "target" : 0 }, { "source" : 14, "target" : 2 }, { "source" : 2, "target" : 3 }, { "source" : 13, "target" : 9 }, { "source" : 15, "target" : 17 }, { "source" : 10, "target" : 22 }, { "source" : 14, "target" : 5 }, { "source" : 16, "target" : 9 }, { "source" : 9, "target" : 7 }, { "source" : 17, "target" : 15 }, { "source" : 18, "target" : 29 }, { "source" : 19, "target" : 34 }, { "source" : 20, "target" : 0 }, { "source" : 1, "target" : 36 }, { "source" : 1, "target" : 2 }, { "source" : 21, "target" : 39 }, { "source" : 22, "target" : 12 }, { "source" : 23, "target" : 7 }, { "source" : 24, "target" : 7 }, { "source" : 1, "target" : 20 }, { "source" : 8, "target" : 33 }, { "source" : 1, "target" : 5 }, { "source" : 25, "target" : 13 }, { "source" : 26, "target" : 4 }, { "source" : 9, "target" : 16 }, { "source" : 12, "target" : 9 }, { "source" : 14, "target" : 1 }, { "source" : 5, "target" : 3 }, { "source" : 7, "target" : 9 }, { "source" : 9, "target" : 10 }, { "source" : 24, "target" : 9 }, { "source" : 27, "target" : 16 }, { "source" : 28, "target" : 9 }, { "source" : 14, "target" : 6 }, { "source" : 1, "target" : 14 }, { "source" : 20, "target" : 36 }, { "source" : 20, "target" : 2 }, { "source" : 12, "target" : 10 }, { "source" : 29, "target" : 3 }, { "source" : 30, "target" : 35 }, { "source" : 2, "target" : 0 }, { "source" : 6, "target" : 3 }, { "source" : 25, "target" : 3 }, { "source" : 31, "target" : 37 }, { "source" : 9, "target" : 11 }, { "source" : 9, "target" : 28 }, { "source" : 32, "target" : 8 }, { "source" : 10, "target" : 9 }, { "source" : 1, "target" : 6 }, { "source" : 20, "target" : 1 }, { "source" : 2, "target" : 20 }, { "source" : 2, "target" : 36 }, { "source" : 33, "target" : 32 }, { "source" : 18, "target" : 3 }, { "source" : 16, "target" : 3 }, { "source" : 2, "target" : 5 }, { "source" : 16, "target" : 13 }, { "source" : 13, "target" : 3 }, { "source" : 22, "target" : 10 }, { "source" : 3, "target" : 1 }, { "source" : 0, "target" : 20 }, { "source" : 5, "target" : 2 }, { "source" : 34, "target" : 19 }, { "source" : 0, "target" : 36 }, { "source" : 35, "target" : 30 }, { "source" : 36, "target" : 0 }, { "source" : 3, "target" : 16 }, { "source" : 0, "target" : 2 }, { "source" : 3, "target" : 2 }, { "source" : 33, "target" : 8 }, { "source" : 2, "target" : 1 }, { "source" : 3, "target" : 5 }, { "source" : 37, "target" : 31 }, { "source" : 38, "target" : 16 }, { "source" : 3, "target" : 25 }, { "source" : 9, "target" : 3 }, { "source" : 3, "target" : 29 }, { "source" : 14, "target" : 3 }, { "source" : 32, "target" : 33 }, { "source" : 9, "target" : 13 }, { "source" : 16, "target" : 27 }, { "source" : 2, "target" : 6 }, { "source" : 29, "target" : 18 }, { "source" : 36, "target" : 20 }, { "source" : 39, "target" : 21 }, { "source" : 16, "target" : 38 }, { "source" : 22, "target" : 9 }, { "source" : 3, "target" : 14 }, { "source" : 36, "target" : 1 }, { "source" : 36, "target" : 2 } ] ; 
+ var nodes = [ { "name" : "python", "group" : 1 }, { "name" : "hadoop", "group" : 1 }, { "name" : "spark", "group" : 1 }, { "name" : "bigdata", "group" : 1 }, { "name" : "digitalhumanities", "group" : 2 }, { "name" : "yarn", "group" : 1 }, { "name" : "techcon", "group" : 1 }, { "name" : "measure", "group" : 3 }, { "name" : "leukemia", "group" : 4 }, { "name" : "datascience", "group" : 3 }, { "name" : "earl2015", "group" : 3 }, { "name" : "machinelearning", "group" : 3 }, { "name" : "r", "group" : 3 }, { "name" : "analytics", "group" : 5 }, { "name" : "chicago", "group" : 1 }, { "name" : "raster", "group" : 6 }, { "name" : "dataviz", "group" : 5 }, { "name" : "workwithdata", "group" : 6 }, { "name" : "earl2105", "group" : 1 }, { "name" : "learnstats", "group" : 7 }, { "name" : "spss", "group" : 1 }, { "name" : "d3js", "group" : 8 }, { "name" : "london", "group" : 3 }, { "name" : "adobeanalytics", "group" : 3 }, { "name" : "omniture", "group" : 3 }, { "name" : "statistics", "group" : 1 }, { "name" : "dh", "group" : 2 }, { "name" : "fintech", "group" : 5 }, { "name" : "microsoft", "group" : 3 }, { "name" : "boston", "group" : 1 }, { "name" : "mturkr", "group" : 9 }, { "name" : "roxygen", "group" : 10 }, { "name" : "cell", "group" : 4 }, { "name" : "ggplot", "group" : 4 }, { "name" : "learnr", "group" : 7 }, { "name" : "mturk", "group" : 9 }, { "name" : "opensource", "group" : 1 }, { "name" : "markdown", "group" : 10 }, { "name" : "skittles", "group" : 5 }, { "name" : "jsm2015", "group" : 8 } ] ; 
+ var width = 900
+height = 600;
+
+var color = d3.scale.category20();
+
+var force = d3.layout.force()
+.nodes(d3.values(nodes))
+.links(links)
+.size([width, height])
+.linkDistance(50)
+.charge(-120)
+.on("tick", tick)
+.start();
+
+var svg = d3.select("body").append("svg")
+.attr("width", width)
+.attr("height", height)
+.attr("pointer-events", "all")
+.call(d3.behavior.zoom().on("zoom", redraw));
+
+var vis = svg
+.append("svg:g");
+
+vis.append("svg:rect")
+.attr("width", width)
+.attr("height", height)
+.attr("fill", 'white');
+
+function redraw() {
+vis.attr("transform",
+"translate(" + d3.event.translate + ")"
++ " scale(" + d3.event.scale + ")");
+}
+
+var link = vis.selectAll(".link")
+.data(force.links())
+.enter().append("line")
+.attr("class", "link")
+.style("stroke-width", function(d) { return Math.sqrt(d.value); });
+
+var node = vis.selectAll(".node")
+.data(force.nodes())
+.enter().append("g")
+.attr("class", "node")
+.style("fill", function(d) { return color(d.group); })
+.style("opacity", 0.6)
+.on("mouseover", mouseover)
+.on("mouseout", mouseout)
+.call(force.drag);
+
+node.append("circle")
+.attr("r", 6)
+
+node.append("svg:text")
+.attr("class", "nodetext")
+.attr("dx", 12)
+.attr("dy", ".35em")
+.text(function(d) { return d.name });
+
+function tick() {
+link
+.attr("x1", function(d) { return d.source.x; })
+.attr("y1", function(d) { return d.source.y; })
+.attr("x2", function(d) { return d.target.x; })
+.attr("y2", function(d) { return d.target.y; });
+
+node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+}
+
+function mouseover() {
+d3.select(this).select("circle").transition()
+.duration(750)
+.attr("r", 16);
+d3.select(this).select("text").transition()
+.duration(750)
+.attr("x", 13)
+.style("stroke-width", ".5px")
+.style("font", "17.5px serif")
+.style("opacity", 1);
+}
+
+function mouseout() {
+d3.select(this).select("circle").transition()
+.duration(750)
+.attr("r", 8);
+}
+
+</script>
+ </body>

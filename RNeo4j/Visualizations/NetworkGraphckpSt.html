@@ -1,0 +1,132 @@
+
+        <!DOCTYPE html>
+        <meta charset="utf-8">
+        <body> 
+ <style>
+.link {
+stroke: #666;
+opacity: 0.6;
+stroke-width: 1.5px;
+}
+.node circle {
+stroke: #fff;
+opacity: 0.6;
+stroke-width: 1.5px;
+}
+text {
+font: 7px serif;
+opacity: 0.6;
+pointer-events: none;
+}
+</style>
+
+<script src=http://d3js.org/d3.v3.min.js></script>
+
+<script> 
+ var links = [ { "source" : "python", "target" : "hadoop" }, { "source" : "hadoop", "target" : "bigdata" }, { "source" : "python", "target" : "datascience" }, { "source" : "spark", "target" : "chicago" }, { "source" : "bigdata", "target" : "earl2105" }, { "source" : "bigdata", "target" : "datascience" }, { "source" : "digitalhumanities", "target" : "dh" }, { "source" : "yarn", "target" : "hadoop" }, { "source" : "techcon", "target" : "spark" }, { "source" : "techcon", "target" : "hadoop" }, { "source" : "measure", "target" : "adobeanalytics" }, { "source" : "bigdata", "target" : "techcon" }, { "source" : "yarn", "target" : "techcon" }, { "source" : "leukemia", "target" : "cell" }, { "source" : "datascience", "target" : "r" }, { "source" : "earl2015", "target" : "r" }, { "source" : "techcon", "target" : "yarn" }, { "source" : "machinelearning", "target" : "datascience" }, { "source" : "r", "target" : "london" }, { "source" : "datascience", "target" : "python" }, { "source" : "techcon", "target" : "chicago" }, { "source" : "analytics", "target" : "dataviz" }, { "source" : "datascience", "target" : "london" }, { "source" : "yarn", "target" : "chicago" }, { "source" : "measure", "target" : "omniture" }, { "source" : "datascience", "target" : "omniture" }, { "source" : "analytics", "target" : "statistics" }, { "source" : "bigdata", "target" : "analytics" }, { "source" : "hadoop", "target" : "python" }, { "source" : "chicago", "target" : "spark" }, { "source" : "spark", "target" : "bigdata" }, { "source" : "analytics", "target" : "datascience" }, { "source" : "raster", "target" : "workwithdata" }, { "source" : "earl2015", "target" : "london" }, { "source" : "chicago", "target" : "yarn" }, { "source" : "dataviz", "target" : "datascience" }, { "source" : "datascience", "target" : "measure" }, { "source" : "workwithdata", "target" : "raster" }, { "source" : "earl2105", "target" : "boston" }, { "source" : "learnstats", "target" : "learnr" }, { "source" : "spss", "target" : "python" }, { "source" : "hadoop", "target" : "opensource" }, { "source" : "hadoop", "target" : "spark" }, { "source" : "d3js", "target" : "jsm2015" }, { "source" : "london", "target" : "r" }, { "source" : "adobeanalytics", "target" : "measure" }, { "source" : "omniture", "target" : "measure" }, { "source" : "hadoop", "target" : "spss" }, { "source" : "leukemia", "target" : "ggplot" }, { "source" : "hadoop", "target" : "yarn" }, { "source" : "statistics", "target" : "analytics" }, { "source" : "dh", "target" : "digitalhumanities" }, { "source" : "datascience", "target" : "dataviz" }, { "source" : "r", "target" : "datascience" }, { "source" : "chicago", "target" : "hadoop" }, { "source" : "yarn", "target" : "bigdata" }, { "source" : "measure", "target" : "datascience" }, { "source" : "datascience", "target" : "earl2015" }, { "source" : "omniture", "target" : "datascience" }, { "source" : "fintech", "target" : "dataviz" }, { "source" : "microsoft", "target" : "datascience" }, { "source" : "chicago", "target" : "techcon" }, { "source" : "hadoop", "target" : "chicago" }, { "source" : "spss", "target" : "opensource" }, { "source" : "spss", "target" : "spark" }, { "source" : "r", "target" : "earl2015" }, { "source" : "boston", "target" : "bigdata" }, { "source" : "mturkr", "target" : "mturk" }, { "source" : "spark", "target" : "python" }, { "source" : "techcon", "target" : "bigdata" }, { "source" : "statistics", "target" : "bigdata" }, { "source" : "roxygen", "target" : "markdown" }, { "source" : "datascience", "target" : "machinelearning" }, { "source" : "datascience", "target" : "microsoft" }, { "source" : "cell", "target" : "leukemia" }, { "source" : "earl2015", "target" : "datascience" }, { "source" : "hadoop", "target" : "techcon" }, { "source" : "spss", "target" : "hadoop" }, { "source" : "spark", "target" : "spss" }, { "source" : "spark", "target" : "opensource" }, { "source" : "ggplot", "target" : "cell" }, { "source" : "earl2105", "target" : "bigdata" }, { "source" : "dataviz", "target" : "bigdata" }, { "source" : "spark", "target" : "yarn" }, { "source" : "dataviz", "target" : "analytics" }, { "source" : "analytics", "target" : "bigdata" }, { "source" : "london", "target" : "earl2015" }, { "source" : "bigdata", "target" : "hadoop" }, { "source" : "python", "target" : "spss" }, { "source" : "yarn", "target" : "spark" }, { "source" : "learnr", "target" : "learnstats" }, { "source" : "python", "target" : "opensource" }, { "source" : "mturk", "target" : "mturkr" }, { "source" : "opensource", "target" : "python" }, { "source" : "bigdata", "target" : "dataviz" }, { "source" : "python", "target" : "spark" }, { "source" : "bigdata", "target" : "spark" }, { "source" : "ggplot", "target" : "leukemia" }, { "source" : "spark", "target" : "hadoop" }, { "source" : "bigdata", "target" : "yarn" }, { "source" : "markdown", "target" : "roxygen" }, { "source" : "skittles", "target" : "dataviz" }, { "source" : "bigdata", "target" : "statistics" }, { "source" : "datascience", "target" : "bigdata" }, { "source" : "bigdata", "target" : "boston" }, { "source" : "chicago", "target" : "bigdata" }, { "source" : "cell", "target" : "ggplot" }, { "source" : "datascience", "target" : "analytics" }, { "source" : "dataviz", "target" : "fintech" }, { "source" : "spark", "target" : "techcon" }, { "source" : "boston", "target" : "earl2105" }, { "source" : "opensource", "target" : "spss" }, { "source" : "jsm2015", "target" : "d3js" }, { "source" : "dataviz", "target" : "skittles" }, { "source" : "london", "target" : "datascience" }, { "source" : "bigdata", "target" : "chicago" }, { "source" : "opensource", "target" : "hadoop" }, { "source" : "opensource", "target" : "spark" } ] ; 
+ var nodes = {}
+
+// Compute the distinct nodes from the links.
+links.forEach(function(link) {
+link.source = nodes[link.source] ||
+(nodes[link.source] = {name: link.source});
+link.target = nodes[link.target] ||
+(nodes[link.target] = {name: link.target});
+link.value = +link.value;
+});
+
+var width = 900
+height = 600;
+
+var force = d3.layout.force()
+.nodes(d3.values(nodes))
+.links(links)
+.size([width, height])
+.linkDistance(50)
+.charge(-200)
+.on("tick", tick)
+.start();
+
+var svg = d3.select("body").append("svg")
+.attr("width", width)
+.attr("height", height);
+
+var link = svg.selectAll(".link")
+.data(force.links())
+.enter().append("line")
+.attr("class", "link");
+
+var node = svg.selectAll(".node")
+.data(force.nodes())
+.enter().append("g")
+.attr("class", "node")
+.on("mouseover", mouseover)
+.on("mouseout", mouseout)
+.on("click", click)
+.on("dblclick", dblclick)
+.call(force.drag);
+
+node.append("circle")
+.attr("r", 8)
+.style("fill", "#3182bd");
+
+node.append("text")
+.attr("x", 12)
+.attr("dy", ".35em")
+.style("fill", "#3182bd")
+.text(function(d) { return d.name; });
+
+function tick() {
+link
+.attr("x1", function(d) { return d.source.x; })
+.attr("y1", function(d) { return d.source.y; })
+.attr("x2", function(d) { return d.target.x; })
+.attr("y2", function(d) { return d.target.y; });
+
+node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+}
+
+function mouseover() {
+d3.select(this).select("circle").transition()
+.duration(750)
+.attr("r", 16);
+}
+
+function mouseout() {
+d3.select(this).select("circle").transition()
+.duration(750)
+.attr("r", 8);
+}
+// action to take on mouse click
+function click() {
+d3.select(this).select("text").transition()
+.duration(750)
+.attr("x", 22)
+.style("stroke-width", ".5px")
+.style("opacity", 1)
+.style("fill", "#E34A33")
+.style("font", "17.5px serif");
+d3.select(this).select("circle").transition()
+.duration(750)
+.style("fill", "#E34A33")
+.attr("r", 16)
+}
+
+// action to take on mouse double click
+function dblclick() {
+d3.select(this).select("circle").transition()
+.duration(750)
+.attr("r", 6)
+.style("fill", "#E34A33");
+d3.select(this).select("text").transition()
+.duration(750)
+.attr("x", 12)
+.style("stroke", "none")
+.style("fill", "#E34A33")
+.style("stroke", "none")
+.style("opacity", 0.6)
+.style("font", "7px serif");
+}
+
+</script>
+ </body>
