@@ -1164,7 +1164,7 @@ MERGE (:Gate {number: TOINT(line.gate )})-[:IN_TERMINAL]->(t);
 ### Query
 ```{r, echo=FALSE}
 cat(query)
-invisible(cypher(graph, query, filepath=paste0("file://", WORKING_DIRECTORY, "csv/gates_terminals.csv")))
+invisible(cypher(graph, query, filepath=paste0("file://", getwd(), "/csv/gates_terminals.csv")))
 ```
 
 Places
@@ -1185,7 +1185,7 @@ MERGE (place)-[:AT_GATE]->(gate);
 ### Query
 ```{r, echo=FALSE}
 cat(query)
-invisible(cypher(graph, query, filepath=paste0("file://", WORKING_DIRECTORY, "csv/places.csv")))
+invisible(cypher(graph, query, filepath=paste0("file://", getwd(), "/csv/places.csv")))
 ```
 
 Users
@@ -1203,7 +1203,7 @@ MERGE (:User {name: line.user })
 ### Query
 ```{r, echo=FALSE}
 cat(query)
-invisible(cypher(graph, query, filepath=paste0("file://", WORKING_DIRECTORY, "csv/users.csv")))
+invisible(cypher(graph, query, filepath=paste0("file://", getwd(), "/csv/users.csv")))
 ```
 
 Friends
@@ -1223,7 +1223,7 @@ MERGE (a)-[:FRIENDS_WITH]-(b);
 ### Query
 ```{r, echo=FALSE}
 cat(query)
-invisible(cypher(graph, query, filepath=paste0("file://", WORKING_DIRECTORY, "csv/friends.csv")))
+invisible(cypher(graph, query, filepath=paste0("file://", getwd(), "/csv/friends.csv")))
 ```
 
 Check-Ins
@@ -1243,7 +1243,7 @@ MERGE (user)-[:CHECKED_INTO]->(place);
 ### Query
 ```{r, echo=FALSE}
 cat(query)
-invisible(cypher(graph, query, filepath=paste0("file://", WORKING_DIRECTORY, "csv/check_ins.csv")))
+invisible(cypher(graph, query, filepath=paste0("file://", getwd(), "/csv/check_ins.csv")))
 ```
 
 Likes
@@ -1264,7 +1264,7 @@ SET r.score = TOINT(line.score);
 ### Query
 ```{r, echo=FALSE}
 cat(query)
-invisible(cypher(graph, query, filepath=paste0("file://", WORKING_DIRECTORY, "csv/likes.csv")))
+invisible(cypher(graph, query, filepath=paste0("file://", getwd(), "/csv/likes.csv")))
 ```
 
 Lab
@@ -1283,7 +1283,7 @@ Lab
 query = 
 "LOAD CSV WITH HEADERS FROM {filepath} AS line
 MATCH (place:Place {name: line.place })
-MATCH (category:Category {name: line.category})
+MERGE (category:Category {name: line.category})
 MERGE (place)-[:IN_CATEGORY]->(category)
 "
 ```
@@ -1291,9 +1291,5 @@ MERGE (place)-[:IN_CATEGORY]->(category)
 ### Query
 ```{r, echo=FALSE}
 cat(query)
-invisible(cypher(graph, query, filepath=paste0("file://", WORKING_DIRECTORY, "csv/categories.csv")))
+invisible(cypher(graph, query, filepath=paste0("file://", getwd(), "/csv/categories.csv")))
 ```
-
-More LOAD CSV
-========================================================
-`neo4j.com/blog/webinar-using-load-csv-real-world`
