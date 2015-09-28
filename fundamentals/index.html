@@ -1056,9 +1056,9 @@ RETURN p.name AS barbecue
 <h3>Results</h3>
 
 <pre><code>                barbecue
-        Cousin&#39;s Bar-B-Q
-   Dickey&#39;s Barbecue Pit
             Railhead BBQ
+   Dickey&#39;s Barbecue Pit
+        Cousin&#39;s Bar-B-Q
  The Salt Lick Bar-B-Que
 </code></pre>
 
@@ -1079,9 +1079,9 @@ RETURN p.name AS barbecue
 <h3>Result</h3>
 
 <pre><code>                barbecue
-        Cousin&#39;s Bar-B-Q
-   Dickey&#39;s Barbecue Pit
             Railhead BBQ
+   Dickey&#39;s Barbecue Pit
+        Cousin&#39;s Bar-B-Q
  The Salt Lick Bar-B-Que
 </code></pre>
 
@@ -1198,15 +1198,15 @@ RETURN p.name AS place, g.number AS gate
 <h3>Result</h3>
 
 <pre><code>                            place gate
- Texas Stadium Skybox Bar &amp; Grill   25
- Texas Stadium Skybox Bar &amp; Grill    6
-           Gas Monkey Bar &amp; Grill   31
-     Tigin Irish Pub &amp; Restaurant   20
                           Fly Bar   27
                 Rider&#39;s World Bar   15
-                      Cowtown Bar   35
-                        Vino Volo   27
+     Tigin Irish Pub &amp; Restaurant   20
+           Gas Monkey Bar &amp; Grill   31
+ Texas Stadium Skybox Bar &amp; Grill    6
+ Texas Stadium Skybox Bar &amp; Grill   25
                         Vino Volo   17
+                        Vino Volo   27
+                      Cowtown Bar   35
 </code></pre>
 
 </div>
@@ -1234,11 +1234,11 @@ ORDER BY place
                           Fly Bar   27        E
            Gas Monkey Bar &amp; Grill   31        D
                 Rider&#39;s World Bar   15        E
- Texas Stadium Skybox Bar &amp; Grill   25        C
  Texas Stadium Skybox Bar &amp; Grill    6        B
+ Texas Stadium Skybox Bar &amp; Grill   25        C
      Tigin Irish Pub &amp; Restaurant   20        D
-                        Vino Volo   27        E
                         Vino Volo   17        A
+                        Vino Volo   27        E
 </code></pre>
 
 </div>
@@ -1347,10 +1347,10 @@ RETURN p.name AS place
 <h3>Result</h3>
 
 <pre><code>           place
-      Manchu Wok
      Burger King
- T.G.I. Friday&#39;s
+      Manchu Wok
  Cool River Cafe
+ T.G.I. Friday&#39;s
 </code></pre>
 
 </div>
@@ -1431,10 +1431,10 @@ ORDER BY friends DESC
 <h3>Result</h3>
 
 <pre><code>    user friends          friends_names
-    Hank       3   Alice, David, Elaine
-   Alice       3 Hank, Forrest, Charles
+    Hank       3   David, Alice, Elaine
+   Alice       3 Hank, Charles, Forrest
   Elaine       2          Hank, Forrest
- Forrest       2          Alice, Elaine
+ Forrest       2          Elaine, Alice
    David       1                   Hank
  Charles       1                  Alice
      Bob       0                       
@@ -1517,10 +1517,10 @@ RETURN place.name AS place, TYPE(r) AS type
 <h3>Result</h3>
 
 <pre><code>             place         type
-        McDonald&#39;s CHECKED_INTO
- Pizza Hut Express CHECKED_INTO
- Pizza Hut Express        LIKED
        Burger King        LIKED
+ Pizza Hut Express        LIKED
+ Pizza Hut Express CHECKED_INTO
+        McDonald&#39;s CHECKED_INTO
 </code></pre>
 
 </div>
@@ -1542,8 +1542,8 @@ ORDER BY score DESC
 <h3>Result</h3>
 
 <pre><code>             place score
-        Manchu Wok     4
  Pizza Hut Express     4
+        Manchu Wok     4
    Cool River Cafe     4
    T.G.I. Friday&#39;s     2
        Burger King     1
@@ -1633,10 +1633,10 @@ RETURN place.name AS place, r.score AS score
 <h3>Result</h3>
 
 <pre><code>             place score
-        McDonald&#39;s  null
- Pizza Hut Express  null
- Pizza Hut Express     4
        Burger King     1
+ Pizza Hut Express     4
+ Pizza Hut Express  null
+        McDonald&#39;s  null
 </code></pre>
 
 </div>
@@ -1659,10 +1659,10 @@ RETURN place.name AS place,
 <h3>Result</h3>
 
 <pre><code>             place    score
-        McDonald&#39;s No Score
- Pizza Hut Express No Score
- Pizza Hut Express        4
        Burger King        1
+ Pizza Hut Express        4
+ Pizza Hut Express No Score
+        McDonald&#39;s No Score
 </code></pre>
 
 </div>
@@ -1686,10 +1686,10 @@ RETURN place.name AS place,
 <h3>Result</h3>
 
 <pre><code>             place       action    score
-        McDonald&#39;s CHECKED_INTO No Score
- Pizza Hut Express CHECKED_INTO No Score
- Pizza Hut Express        LIKED        4
        Burger King        LIKED        1
+ Pizza Hut Express        LIKED        4
+ Pizza Hut Express CHECKED_INTO No Score
+        McDonald&#39;s CHECKED_INTO No Score
 </code></pre>
 
 </div>
@@ -2045,8 +2045,115 @@ RETURN p
 
 <h3>Query</h3>
 
-<pre><code>Error in paste0(&quot;file://&quot;, WORKING_DIRECTORY, &quot;csv/gates_terminals.csv&quot;) : 
-  object &#39;WORKING_DIRECTORY&#39; not found
+<pre><code>LOAD CSV WITH HEADERS FROM {filepath} AS line
+MERGE (t:Terminal {name: line.terminal })
+MERGE (:Gate {number: TOINT(line.gate )})-[:IN_TERMINAL]-&gt;(t);
+</code></pre>
+
+</div>
+
+</section>
+<section data-transition="linear" data-transition-speed="default">
+<h3>Places</h3>
+<div class="slideContent" >
+<p><code>places.csv</code></p>
+
+<h3>Query</h3>
+
+<pre><code>LOAD CSV WITH HEADERS FROM {filepath} AS line
+MATCH (t:Terminal {name: line.terminal })
+MATCH (gate:Gate {number: TOINT(line.gate) })-[:IN_TERMINAL]-&gt;(t)
+MERGE (place:Place {name: line.place })
+MERGE (place)-[:AT_GATE]-&gt;(gate);
+</code></pre>
+
+</div>
+
+</section>
+<section data-transition="linear" data-transition-speed="default">
+<h3>Users</h3>
+<div class="slideContent" >
+<p><code>users.csv</code></p>
+
+<h3>Query</h3>
+
+<pre><code>LOAD CSV WITH HEADERS FROM {filepath} AS line
+MERGE (:User {name: line.user })
+</code></pre>
+
+</div>
+
+</section>
+<section data-transition="linear" data-transition-speed="default">
+<h3>Friends</h3>
+<div class="slideContent" >
+<p><code>friends.csv</code></p>
+
+<h3>Query</h3>
+
+<pre><code>LOAD CSV WITH HEADERS FROM {filepath} AS line
+MATCH (a:User {name: line.user_a })
+MATCH (b:User {name: line.user_b })
+MERGE (a)-[:FRIENDS_WITH]-(b);
+</code></pre>
+
+</div>
+
+</section>
+<section data-transition="linear" data-transition-speed="default">
+<h3>Check-Ins</h3>
+<div class="slideContent" >
+<p><code>check_ins.csv</code></p>
+
+<h3>Query</h3>
+
+<pre><code>LOAD CSV WITH HEADERS FROM {filepath} AS line
+MATCH (place:Place {name: line.place })
+MATCH (user:User {name: line.user })
+MERGE (user)-[:CHECKED_INTO]-&gt;(place);
+</code></pre>
+
+</div>
+
+</section>
+<section data-transition="linear" data-transition-speed="default">
+<h3>Likes</h3>
+<div class="slideContent" >
+<p><code>likes.csv</code></p>
+
+<h3>Query</h3>
+
+<pre><code>LOAD CSV WITH HEADERS FROM {filepath} AS line
+MATCH (place:Place {name: line.place })
+MATCH (user:User {name: line.user })
+MERGE (user)-[r:LIKED]-&gt;(place)
+SET r.score = TOINT(line.score);
+</code></pre>
+
+</div>
+
+</section>
+<section data-transition="linear" data-transition-speed="default">
+<h3>Lab</h3>
+<div class="slideContent" >
+<p><code>categories.csv</code></p>
+
+<p>Import the categories and attach the places to the correct category.</p>
+
+</div>
+
+</section>
+<section data-transition="linear" data-transition-speed="default">
+<h3>Lab</h3>
+<div class="slideContent" >
+<p><code>categories.csv</code></p>
+
+<h3>Query</h3>
+
+<pre><code>LOAD CSV WITH HEADERS FROM {filepath} AS line
+MATCH (place:Place {name: line.place })
+MERGE (category:Category {name: line.category})
+MERGE (place)-[:IN_CATEGORY]-&gt;(category)
 </code></pre>
 
 </div>
