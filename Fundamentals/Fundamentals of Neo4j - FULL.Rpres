@@ -335,7 +335,7 @@ print(cypher(graph, query), row.names = F)
 Regular Expressions
 ========================================================
 
-**Names of barbecue places.**
+**Names of bar or barbecue places.**
 
 ```{r, echo=FALSE}
 query = 
