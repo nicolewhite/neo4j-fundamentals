@@ -54,15 +54,14 @@ Agenda
 Today's Data
 ========================================================
 
-### `github.com/nicolewhite/neo4j-presentations`
+### `nicolewhite.github.io/neo4j-presentations/import.txt`
 
-- Navigate to `Fundamentals`
-- Copy the contents of `import.txt` into the Neo4j Browser and run
+- Copy the contents into the Neo4j Browser and run
 
 Today's Slides
 ========================================================
 
-### `nicolewhite.github.io/neo4j-presentations/fundamentals`
+### `nicolewhite.github.io/neo4j-presentations`
 
 Section Header
 ========================================================
