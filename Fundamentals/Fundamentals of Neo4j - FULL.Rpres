@@ -320,6 +320,28 @@ cat(query)
 print(cypher(graph, query), row.names = F)
 ```
 
+Regular Expressions
+========================================================
+
+**Names of barbecue places.**
+
+```{r, echo=FALSE}
+query = 
+"MATCH (p:Place)-[:IN_CATEGORY]->(c:Category)
+WHERE c.name =~ 'Bar.*'
+RETURN p.name AS place, c.name AS category"
+```
+
+### Query
+```{r, echo=FALSE}
+cat(query)
+```
+
+### Results
+```{r, echo=FALSE}
+print(cypher(graph, query), row.names = F)
+```
+
 Multiple Patterns in the MATCH Clause
 ========================================================
 
