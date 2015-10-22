@@ -177,6 +177,19 @@ RETURN t.name
 - Properties are accessed with `{identifier}.{property}`
 - This query will return a table in the Neo4j Browser
 
+Case Sensitivity
+========================================================
+
+### Case Sensitive
+
+- Node labels
+- Relationship types
+- Property keys
+
+### Case Insensitive
+
+- Cypher keywords
+
 Section Header
 ========================================================
 title: false
