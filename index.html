@@ -838,11 +838,10 @@ hljs.initHighlightingOnLoad();
 <section data-transition="linear" data-transition-speed="default">
 <h3>Today&#x27;s Data</h3>
 <div class="slideContent" >
-<h3><code>github.com/nicolewhite/neo4j-presentations</code></h3>
+<h3><code>nicolewhite.github.io/neo4j-presentations/import.txt</code></h3>
 
 <ul>
-<li>Navigate to <code>Fundamentals</code></li>
-<li>Copy the contents of <code>import.txt</code> into the Neo4j Browser and run</li>
+<li>Copy the contents into the Neo4j Browser and run</li>
 </ul>
 
 </div>
@@ -851,7 +850,7 @@ hljs.initHighlightingOnLoad();
 <section data-transition="linear" data-transition-speed="default">
 <h3>Today&#x27;s Slides</h3>
 <div class="slideContent" >
-<h3><code>nicolewhite.github.io/neo4j-presentations/fundamentals</code></h3>
+<h3><code>nicolewhite.github.io/neo4j-presentations</code></h3>
 
 </div>
 
@@ -1057,10 +1056,10 @@ RETURN p.name AS barbecue
 <h3>Results</h3>
 
 <pre><code>                barbecue
-   Dickey&#39;s Barbecue Pit
-            Railhead BBQ
  The Salt Lick Bar-B-Que
+   Dickey&#39;s Barbecue Pit
         Cousin&#39;s Bar-B-Q
+            Railhead BBQ
 </code></pre>
 
 </div>
@@ -1080,10 +1079,10 @@ RETURN p.name AS barbecue
 <h3>Result</h3>
 
 <pre><code>                barbecue
-   Dickey&#39;s Barbecue Pit
-            Railhead BBQ
  The Salt Lick Bar-B-Que
+   Dickey&#39;s Barbecue Pit
         Cousin&#39;s Bar-B-Q
+            Railhead BBQ
 </code></pre>
 
 </div>
@@ -1198,17 +1197,17 @@ RETURN p.name AS place, c.name AS category
 <h3>Results</h3>
 
 <pre><code>                            place category
+                        Vino Volo      Bar
+                      Cowtown Bar      Bar
+ Texas Stadium Skybox Bar &amp; Grill      Bar
+                          Fly Bar      Bar
+                Rider&#39;s World Bar      Bar
            Gas Monkey Bar &amp; Grill      Bar
      Tigin Irish Pub &amp; Restaurant      Bar
-                Rider&#39;s World Bar      Bar
-                          Fly Bar      Bar
-                      Cowtown Bar      Bar
-                        Vino Volo      Bar
- Texas Stadium Skybox Bar &amp; Grill      Bar
-            Dickey&#39;s Barbecue Pit Barbecue
-                     Railhead BBQ Barbecue
           The Salt Lick Bar-B-Que Barbecue
+            Dickey&#39;s Barbecue Pit Barbecue
                  Cousin&#39;s Bar-B-Q Barbecue
+                     Railhead BBQ Barbecue
 </code></pre>
 
 </div>
@@ -1230,15 +1229,15 @@ RETURN p.name AS place, g.number AS gate
 <h3>Result</h3>
 
 <pre><code>                            place gate
-           Gas Monkey Bar &amp; Grill   31
-     Tigin Irish Pub &amp; Restaurant   20
-                Rider&#39;s World Bar   15
-                          Fly Bar   27
-                      Cowtown Bar   35
                         Vino Volo   17
                         Vino Volo   27
- Texas Stadium Skybox Bar &amp; Grill    6
+                      Cowtown Bar   35
  Texas Stadium Skybox Bar &amp; Grill   25
+ Texas Stadium Skybox Bar &amp; Grill    6
+                          Fly Bar   27
+                Rider&#39;s World Bar   15
+           Gas Monkey Bar &amp; Grill   31
+     Tigin Irish Pub &amp; Restaurant   20
 </code></pre>
 
 </div>
@@ -1266,8 +1265,8 @@ ORDER BY place
                           Fly Bar   27        E
            Gas Monkey Bar &amp; Grill   31        D
                 Rider&#39;s World Bar   15        E
- Texas Stadium Skybox Bar &amp; Grill    6        B
  Texas Stadium Skybox Bar &amp; Grill   25        C
+ Texas Stadium Skybox Bar &amp; Grill    6        B
      Tigin Irish Pub &amp; Restaurant   20        D
                         Vino Volo   17        A
                         Vino Volo   27        E
@@ -1379,10 +1378,10 @@ RETURN p.name AS place
 <h3>Result</h3>
 
 <pre><code>           place
+      Manchu Wok
+     Burger King
  Cool River Cafe
  T.G.I. Friday&#39;s
-     Burger King
-      Manchu Wok
 </code></pre>
 
 </div>
@@ -1463,9 +1462,9 @@ ORDER BY friends DESC
 <h3>Result</h3>
 
 <pre><code>    user friends          friends_names
-    Hank       3   Alice, David, Elaine
-   Alice       3 Charles, Forrest, Hank
-  Elaine       2          Hank, Forrest
+    Hank       3   Elaine, Alice, David
+   Alice       3 Forrest, Charles, Hank
+  Elaine       2          Forrest, Hank
  Forrest       2          Alice, Elaine
    David       1                   Hank
  Charles       1                  Alice
@@ -1549,10 +1548,10 @@ RETURN place.name AS place, TYPE(r) AS type
 <h3>Result</h3>
 
 <pre><code>             place         type
- Pizza Hut Express        LIKED
- Pizza Hut Express CHECKED_INTO
-       Burger King        LIKED
         McDonald&#39;s CHECKED_INTO
+ Pizza Hut Express CHECKED_INTO
+ Pizza Hut Express        LIKED
+       Burger King        LIKED
 </code></pre>
 
 </div>
@@ -1574,9 +1573,9 @@ ORDER BY score DESC
 <h3>Result</h3>
 
 <pre><code>             place score
-   Cool River Cafe     4
- Pizza Hut Express     4
         Manchu Wok     4
+ Pizza Hut Express     4
+   Cool River Cafe     4
    T.G.I. Friday&#39;s     2
        Burger King     1
 </code></pre>
@@ -1639,8 +1638,8 @@ RETURN u.name AS user, p.name AS place
 
 <pre><code>    user                         place
    David               Boars Head Deli
- Forrest              Power &amp; Internet
  Forrest    Pappadeaux Seafood Kitchen
+ Forrest              Power &amp; Internet
      Ian                     Cereality
      Jan Freshens Smoothies and Yogurt
      Jan                   Jamba Juice
@@ -1665,10 +1664,10 @@ RETURN place.name AS place, r.score AS score
 <h3>Result</h3>
 
 <pre><code>             place score
- Pizza Hut Express     4
- Pizza Hut Express  null
-       Burger King     1
         McDonald&#39;s  null
+ Pizza Hut Express  null
+ Pizza Hut Express     4
+       Burger King     1
 </code></pre>
 
 </div>
@@ -1691,10 +1690,10 @@ RETURN place.name AS place,
 <h3>Result</h3>
 
 <pre><code>             place    score
- Pizza Hut Express        4
- Pizza Hut Express No Score
-       Burger King        1
         McDonald&#39;s No Score
+ Pizza Hut Express No Score
+ Pizza Hut Express        4
+       Burger King        1
 </code></pre>
 
 </div>
@@ -1718,10 +1717,10 @@ RETURN place.name AS place,
 <h3>Result</h3>
 
 <pre><code>             place       action    score
- Pizza Hut Express        LIKED        4
- Pizza Hut Express CHECKED_INTO No Score
-       Burger King        LIKED        1
         McDonald&#39;s CHECKED_INTO No Score
+ Pizza Hut Express CHECKED_INTO No Score
+ Pizza Hut Express        LIKED        4
+       Burger King        LIKED        1
 </code></pre>
 
 </div>
@@ -1757,8 +1756,8 @@ RETURN LENGTH(p) AS path_length
 <h3>Result</h3>
 
 <pre><code> path_length
-           5
            3
+           5
 </code></pre>
 
 </div>
@@ -1780,8 +1779,8 @@ RETURN EXTRACT(x IN NODES(p) | x.name) AS nodes,
 <h3>Result</h3>
 
 <pre><code>                                        nodes path_length
- Charles, Alice, Forrest, Elaine, Hank, David           5
                   Charles, Alice, Hank, David           3
+ Charles, Alice, Forrest, Elaine, Hank, David           5
 </code></pre>
 
 </div>
@@ -1825,8 +1824,8 @@ RETURN EXTRACT(x IN NODES(p) | x.name) AS nodes,
 <h3>Result</h3>
 
 <pre><code>                                        nodes path_length
- Charles, Alice, Forrest, Elaine, Hank, David           5
                   Charles, Alice, Hank, David           3
+ Charles, Alice, Forrest, Elaine, Hank, David           5
 </code></pre>
 
 </div>
@@ -2024,7 +2023,7 @@ RETURN u.name, u.created, u.accessed
 <h3>Result</h3>
 
 <pre><code>    u.name     u.created u.accessed
- Your Name 1445527781883          0
+ Your Name 1445528120948          0
 </code></pre>
 
 </div>
@@ -2129,7 +2128,7 @@ DELETE allrels, ian
 
 <pre><code>Error : client error: (400) Bad Request
 Neo.ClientError.Schema.ConstraintViolation
-Node 1198 already exists with
+Node 1798 already exists with
 </code></pre>
 
 <h3>Notes</h3>
@@ -2218,7 +2217,7 @@ Node 1198 already exists with
 <h3>Query</h3>
 
 <pre><code>processing file: Fundamentals of Neo4j - FULL.Rpres
-Quitting from lines 1351-1353 (Fundamentals of Neo4j - FULL.Rpres) 
+Quitting from lines 1350-1352 (Fundamentals of Neo4j - FULL.Rpres) 
 Error: client error: (400) Bad Request
 Neo.TransientError.Statement.ExternalResourceFailure
 Couldn&#39;t load the external resource at: file:/Users/nicolewhite/GitHub/neo4j-presentations/Fundamentals/csvcsv/gates_terminals.csv
