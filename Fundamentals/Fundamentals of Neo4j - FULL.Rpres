@@ -6,7 +6,7 @@ width: 1400
 height: 1000
 
 ```{r, echo=FALSE}
-WORKING_DIRECTORY = "/Users/nicole/Documents/GitHub/neo4j-fundamentals/"
+WORKING_DIRECTORY = "/Users/nicolewhite/GitHub/neo4j-presentations/Fundamentals/csv"
 ```
 
 
@@ -54,17 +54,15 @@ Agenda
 Today's Data
 ========================================================
 
-`http://github.com/nicolewhite/neo4j-fundamentals`
+### `github.com/nicolewhite/neo4j-presentations`
 
-### Unix
-
+- Navigate to `Fundamentals`
 - Copy the contents of `import.txt` into the Neo4j Browser and run
 
-### Windows
+Today's Slides
+========================================================
 
-- Unzip `windows_db.zip` (double-click it)
-- Navigate to the extracted `graph.db` folder with Neo4j's 'Browse' button
-- Click `Start`
+### `nicolewhite.github.io/neo4j-presentations/fundamentals`
 
 Section Header
 ========================================================
