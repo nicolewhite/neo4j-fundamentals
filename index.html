@@ -1002,6 +1002,26 @@ RETURN t.name
 
 </section>
 <section data-transition="linear" data-transition-speed="default">
+<h3>Case Sensitivity</h3>
+<div class="slideContent" >
+<h3>Case Sensitive</h3>
+
+<ul>
+<li>Node labels</li>
+<li>Relationship types</li>
+<li>Property keys</li>
+</ul>
+
+<h3>Case Insensitive</h3>
+
+<ul>
+<li>Cypher keywords</li>
+</ul>
+
+</div>
+
+</section>
+<section data-transition="linear" data-transition-speed="default">
 
 <div class="slideContent noTitle" >
 <h1>Cypher: Match &amp; Return</h1>
@@ -1056,10 +1076,10 @@ RETURN p.name AS barbecue
 <h3>Results</h3>
 
 <pre><code>                barbecue
-            Railhead BBQ
-   Dickey&#39;s Barbecue Pit
-        Cousin&#39;s Bar-B-Q
  The Salt Lick Bar-B-Que
+        Cousin&#39;s Bar-B-Q
+   Dickey&#39;s Barbecue Pit
+            Railhead BBQ
 </code></pre>
 
 </div>
@@ -1079,10 +1099,10 @@ RETURN p.name AS barbecue
 <h3>Result</h3>
 
 <pre><code>                barbecue
-            Railhead BBQ
-   Dickey&#39;s Barbecue Pit
-        Cousin&#39;s Bar-B-Q
  The Salt Lick Bar-B-Que
+        Cousin&#39;s Bar-B-Q
+   Dickey&#39;s Barbecue Pit
+            Railhead BBQ
 </code></pre>
 
 </div>
@@ -1197,17 +1217,17 @@ RETURN p.name AS place, c.name AS category
 <h3>Results</h3>
 
 <pre><code>                            place category
-           Gas Monkey Bar &amp; Grill      Bar
-                          Fly Bar      Bar
-                Rider&#39;s World Bar      Bar
-     Tigin Irish Pub &amp; Restaurant      Bar
- Texas Stadium Skybox Bar &amp; Grill      Bar
-                      Cowtown Bar      Bar
                         Vino Volo      Bar
-                     Railhead BBQ Barbecue
-            Dickey&#39;s Barbecue Pit Barbecue
-                 Cousin&#39;s Bar-B-Q Barbecue
+                      Cowtown Bar      Bar
+                Rider&#39;s World Bar      Bar
+                          Fly Bar      Bar
+ Texas Stadium Skybox Bar &amp; Grill      Bar
+           Gas Monkey Bar &amp; Grill      Bar
+     Tigin Irish Pub &amp; Restaurant      Bar
           The Salt Lick Bar-B-Que Barbecue
+                 Cousin&#39;s Bar-B-Q Barbecue
+            Dickey&#39;s Barbecue Pit Barbecue
+                     Railhead BBQ Barbecue
 </code></pre>
 
 </div>
@@ -1229,15 +1249,15 @@ RETURN p.name AS place, g.number AS gate
 <h3>Result</h3>
 
 <pre><code>                            place gate
-           Gas Monkey Bar &amp; Grill   31
-                          Fly Bar   27
+                        Vino Volo   17
+                        Vino Volo   27
+                      Cowtown Bar   35
                 Rider&#39;s World Bar   15
-     Tigin Irish Pub &amp; Restaurant   20
+                          Fly Bar   27
  Texas Stadium Skybox Bar &amp; Grill    6
  Texas Stadium Skybox Bar &amp; Grill   25
-                      Cowtown Bar   35
-                        Vino Volo   27
-                        Vino Volo   17
+           Gas Monkey Bar &amp; Grill   31
+     Tigin Irish Pub &amp; Restaurant   20
 </code></pre>
 
 </div>
@@ -1268,8 +1288,8 @@ ORDER BY place
  Texas Stadium Skybox Bar &amp; Grill    6        B
  Texas Stadium Skybox Bar &amp; Grill   25        C
      Tigin Irish Pub &amp; Restaurant   20        D
-                        Vino Volo   27        E
                         Vino Volo   17        A
+                        Vino Volo   27        E
 </code></pre>
 
 </div>
@@ -1379,9 +1399,9 @@ RETURN p.name AS place
 
 <pre><code>           place
       Manchu Wok
-     Burger King
  T.G.I. Friday&#39;s
  Cool River Cafe
+     Burger King
 </code></pre>
 
 </div>
@@ -1462,10 +1482,10 @@ ORDER BY friends DESC
 <h3>Result</h3>
 
 <pre><code>    user friends          friends_names
-    Hank       3   Elaine, David, Alice
+    Hank       3   Alice, David, Elaine
    Alice       3 Hank, Forrest, Charles
   Elaine       2          Hank, Forrest
- Forrest       2          Elaine, Alice
+ Forrest       2          Alice, Elaine
    David       1                   Hank
  Charles       1                  Alice
      Bob       0                       
@@ -1548,10 +1568,10 @@ RETURN place.name AS place, TYPE(r) AS type
 <h3>Result</h3>
 
 <pre><code>             place         type
- Pizza Hut Express CHECKED_INTO
- Pizza Hut Express        LIKED
         McDonald&#39;s CHECKED_INTO
        Burger King        LIKED
+ Pizza Hut Express CHECKED_INTO
+ Pizza Hut Express        LIKED
 </code></pre>
 
 </div>
@@ -1574,8 +1594,8 @@ ORDER BY score DESC
 
 <pre><code>             place score
         Manchu Wok     4
- Pizza Hut Express     4
    Cool River Cafe     4
+ Pizza Hut Express     4
    T.G.I. Friday&#39;s     2
        Burger King     1
 </code></pre>
@@ -1664,10 +1684,10 @@ RETURN place.name AS place, r.score AS score
 <h3>Result</h3>
 
 <pre><code>             place score
- Pizza Hut Express  null
- Pizza Hut Express     4
         McDonald&#39;s  null
        Burger King     1
+ Pizza Hut Express  null
+ Pizza Hut Express     4
 </code></pre>
 
 </div>
@@ -1690,10 +1710,10 @@ RETURN place.name AS place,
 <h3>Result</h3>
 
 <pre><code>             place    score
- Pizza Hut Express No Score
- Pizza Hut Express        4
         McDonald&#39;s No Score
        Burger King        1
+ Pizza Hut Express No Score
+ Pizza Hut Express        4
 </code></pre>
 
 </div>
@@ -1717,10 +1737,10 @@ RETURN place.name AS place,
 <h3>Result</h3>
 
 <pre><code>             place       action    score
- Pizza Hut Express CHECKED_INTO No Score
- Pizza Hut Express        LIKED        4
         McDonald&#39;s CHECKED_INTO No Score
        Burger King        LIKED        1
+ Pizza Hut Express CHECKED_INTO No Score
+ Pizza Hut Express        LIKED        4
 </code></pre>
 
 </div>
@@ -1756,8 +1776,8 @@ RETURN LENGTH(p) AS path_length
 <h3>Result</h3>
 
 <pre><code> path_length
-           3
            5
+           3
 </code></pre>
 
 </div>
@@ -1779,8 +1799,8 @@ RETURN EXTRACT(x IN NODES(p) | x.name) AS nodes,
 <h3>Result</h3>
 
 <pre><code>                                        nodes path_length
-                  Charles, Alice, Hank, David           3
  Charles, Alice, Forrest, Elaine, Hank, David           5
+                  Charles, Alice, Hank, David           3
 </code></pre>
 
 </div>
@@ -1824,8 +1844,8 @@ RETURN EXTRACT(x IN NODES(p) | x.name) AS nodes,
 <h3>Result</h3>
 
 <pre><code>                                        nodes path_length
-                  Charles, Alice, Hank, David           3
  Charles, Alice, Forrest, Elaine, Hank, David           5
+                  Charles, Alice, Hank, David           3
 </code></pre>
 
 </div>
@@ -2023,7 +2043,7 @@ RETURN u.name, u.created, u.accessed
 <h3>Result</h3>
 
 <pre><code>    u.name     u.created u.accessed
- Your Name 1445528302532          0
+ Your Name 1445528593024          0
 </code></pre>
 
 </div>
@@ -2128,7 +2148,7 @@ DELETE allrels, ian
 
 <pre><code>Error : client error: (400) Bad Request
 Neo.ClientError.Schema.ConstraintViolation
-Node 2398 already exists with
+Node 2995 already exists with
 </code></pre>
 
 <h3>Notes</h3>
@@ -2217,7 +2237,7 @@ Node 2398 already exists with
 <h3>Query</h3>
 
 <pre><code>processing file: Fundamentals of Neo4j - FULL.Rpres
-Quitting from lines 1350-1352 (Fundamentals of Neo4j - FULL.Rpres) 
+Quitting from lines 1363-1365 (Fundamentals of Neo4j - FULL.Rpres) 
 Error: client error: (400) Bad Request
 Neo.TransientError.Statement.ExternalResourceFailure
 Couldn&#39;t load the external resource at: file:/Users/nicolewhite/GitHub/neo4j-presentations/Fundamentals/csvcsv/gates_terminals.csv
