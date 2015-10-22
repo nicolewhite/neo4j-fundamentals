@@ -1056,10 +1056,10 @@ RETURN p.name AS barbecue
 <h3>Results</h3>
 
 <pre><code>                barbecue
- The Salt Lick Bar-B-Que
+            Railhead BBQ
    Dickey&#39;s Barbecue Pit
         Cousin&#39;s Bar-B-Q
-            Railhead BBQ
+ The Salt Lick Bar-B-Que
 </code></pre>
 
 </div>
@@ -1079,10 +1079,10 @@ RETURN p.name AS barbecue
 <h3>Result</h3>
 
 <pre><code>                barbecue
- The Salt Lick Bar-B-Que
+            Railhead BBQ
    Dickey&#39;s Barbecue Pit
         Cousin&#39;s Bar-B-Q
-            Railhead BBQ
+ The Salt Lick Bar-B-Que
 </code></pre>
 
 </div>
@@ -1197,17 +1197,17 @@ RETURN p.name AS place, c.name AS category
 <h3>Results</h3>
 
 <pre><code>                            place category
-                        Vino Volo      Bar
-                      Cowtown Bar      Bar
- Texas Stadium Skybox Bar &amp; Grill      Bar
+           Gas Monkey Bar &amp; Grill      Bar
                           Fly Bar      Bar
                 Rider&#39;s World Bar      Bar
-           Gas Monkey Bar &amp; Grill      Bar
      Tigin Irish Pub &amp; Restaurant      Bar
-          The Salt Lick Bar-B-Que Barbecue
+ Texas Stadium Skybox Bar &amp; Grill      Bar
+                      Cowtown Bar      Bar
+                        Vino Volo      Bar
+                     Railhead BBQ Barbecue
             Dickey&#39;s Barbecue Pit Barbecue
                  Cousin&#39;s Bar-B-Q Barbecue
-                     Railhead BBQ Barbecue
+          The Salt Lick Bar-B-Que Barbecue
 </code></pre>
 
 </div>
@@ -1229,15 +1229,15 @@ RETURN p.name AS place, g.number AS gate
 <h3>Result</h3>
 
 <pre><code>                            place gate
-                        Vino Volo   17
-                        Vino Volo   27
-                      Cowtown Bar   35
- Texas Stadium Skybox Bar &amp; Grill   25
- Texas Stadium Skybox Bar &amp; Grill    6
+           Gas Monkey Bar &amp; Grill   31
                           Fly Bar   27
                 Rider&#39;s World Bar   15
-           Gas Monkey Bar &amp; Grill   31
      Tigin Irish Pub &amp; Restaurant   20
+ Texas Stadium Skybox Bar &amp; Grill    6
+ Texas Stadium Skybox Bar &amp; Grill   25
+                      Cowtown Bar   35
+                        Vino Volo   27
+                        Vino Volo   17
 </code></pre>
 
 </div>
@@ -1265,11 +1265,11 @@ ORDER BY place
                           Fly Bar   27        E
            Gas Monkey Bar &amp; Grill   31        D
                 Rider&#39;s World Bar   15        E
- Texas Stadium Skybox Bar &amp; Grill   25        C
  Texas Stadium Skybox Bar &amp; Grill    6        B
+ Texas Stadium Skybox Bar &amp; Grill   25        C
      Tigin Irish Pub &amp; Restaurant   20        D
-                        Vino Volo   17        A
                         Vino Volo   27        E
+                        Vino Volo   17        A
 </code></pre>
 
 </div>
@@ -1380,8 +1380,8 @@ RETURN p.name AS place
 <pre><code>           place
       Manchu Wok
      Burger King
- Cool River Cafe
  T.G.I. Friday&#39;s
+ Cool River Cafe
 </code></pre>
 
 </div>
@@ -1462,10 +1462,10 @@ ORDER BY friends DESC
 <h3>Result</h3>
 
 <pre><code>    user friends          friends_names
-    Hank       3   Elaine, Alice, David
-   Alice       3 Forrest, Charles, Hank
-  Elaine       2          Forrest, Hank
- Forrest       2          Alice, Elaine
+    Hank       3   Elaine, David, Alice
+   Alice       3 Hank, Forrest, Charles
+  Elaine       2          Hank, Forrest
+ Forrest       2          Elaine, Alice
    David       1                   Hank
  Charles       1                  Alice
      Bob       0                       
@@ -1548,9 +1548,9 @@ RETURN place.name AS place, TYPE(r) AS type
 <h3>Result</h3>
 
 <pre><code>             place         type
-        McDonald&#39;s CHECKED_INTO
  Pizza Hut Express CHECKED_INTO
  Pizza Hut Express        LIKED
+        McDonald&#39;s CHECKED_INTO
        Burger King        LIKED
 </code></pre>
 
@@ -1638,8 +1638,8 @@ RETURN u.name AS user, p.name AS place
 
 <pre><code>    user                         place
    David               Boars Head Deli
- Forrest    Pappadeaux Seafood Kitchen
  Forrest              Power &amp; Internet
+ Forrest    Pappadeaux Seafood Kitchen
      Ian                     Cereality
      Jan Freshens Smoothies and Yogurt
      Jan                   Jamba Juice
@@ -1664,9 +1664,9 @@ RETURN place.name AS place, r.score AS score
 <h3>Result</h3>
 
 <pre><code>             place score
-        McDonald&#39;s  null
  Pizza Hut Express  null
  Pizza Hut Express     4
+        McDonald&#39;s  null
        Burger King     1
 </code></pre>
 
@@ -1690,9 +1690,9 @@ RETURN place.name AS place,
 <h3>Result</h3>
 
 <pre><code>             place    score
-        McDonald&#39;s No Score
  Pizza Hut Express No Score
  Pizza Hut Express        4
+        McDonald&#39;s No Score
        Burger King        1
 </code></pre>
 
@@ -1717,9 +1717,9 @@ RETURN place.name AS place,
 <h3>Result</h3>
 
 <pre><code>             place       action    score
-        McDonald&#39;s CHECKED_INTO No Score
  Pizza Hut Express CHECKED_INTO No Score
  Pizza Hut Express        LIKED        4
+        McDonald&#39;s CHECKED_INTO No Score
        Burger King        LIKED        1
 </code></pre>
 
@@ -2023,7 +2023,7 @@ RETURN u.name, u.created, u.accessed
 <h3>Result</h3>
 
 <pre><code>    u.name     u.created u.accessed
- Your Name 1445528120948          0
+ Your Name 1445528302532          0
 </code></pre>
 
 </div>
@@ -2128,7 +2128,7 @@ DELETE allrels, ian
 
 <pre><code>Error : client error: (400) Bad Request
 Neo.ClientError.Schema.ConstraintViolation
-Node 1798 already exists with
+Node 2398 already exists with
 </code></pre>
 
 <h3>Notes</h3>
