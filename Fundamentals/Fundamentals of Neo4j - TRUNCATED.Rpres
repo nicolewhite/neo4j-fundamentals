@@ -16,6 +16,13 @@ appendCypher(tx, data)
 commit(tx)
 ```
 
+Today's Data and Slides
+========================================================
+
+# bit.ly/dfw_data
+
+# bit.ly/dfw_slides
+
 Setup
 ========================================================
 
@@ -44,19 +51,6 @@ Agenda
 - Cypher: Match & Return
 - Cypher: Constraints & Indexes
 - Cypher: LOAD CSV
-
-Today's Data
-========================================================
-
-### `github.com/nicolewhite/neo4j-presentations`
-
-- Navigate to `Fundamentals`
-- Copy the contents of `import.txt` into the Neo4j Browser and run
-
-Today's Slides
-========================================================
-
-### `nicolewhite.github.io/neo4j-presentations/fundamentals`
 
 Section Header
 ========================================================
@@ -230,6 +224,50 @@ Shorthand WHERE Conditioning
 query = 
 "MATCH (p:Place)-[:IN_CATEGORY]->(:Category {name:'Barbecue'})
 RETURN p.name AS barbecue"
+```
+
+### Query
+```{r, echo=FALSE}
+cat(query)
+```
+
+### Result
+```{r, echo=FALSE}
+print(cypher(graph, query), row.names = F)
+```
+
+Regular Expressions
+========================================================
+
+**Names of bar or barbecue places.**
+
+```{r, echo=FALSE}
+query = 
+"MATCH (p:Place)-[:IN_CATEGORY]->(c:Category)
+WHERE c.name =~ 'Bar.*'
+RETURN p.name AS place, c.name AS category"
+```
+
+### Query
+```{r, echo=FALSE}
+cat(query)
+```
+
+### Result
+```{r, echo=FALSE}
+print(cypher(graph, query), row.names = F)
+```
+
+The STARTS WITH Clause
+========================================================
+
+**Names of bar or barbecue places.**
+
+```{r, echo=FALSE}
+query = 
+"MATCH (p:Place)-[:IN_CATEGORY]->(c:Category)
+WHERE c.name STARTS WITH 'Bar'
+RETURN p.name AS place, c.name AS category"
 ```
 
 ### Query
@@ -515,6 +553,27 @@ cat(query)
 print(cypher(graph, query), row.names = F)
 ```
 
+The SIZE Function
+========================================================
+
+```{r, echo=FALSE}
+query = "MATCH (u:User)
+RETURN u.name AS user, SIZE((u)-[:FRIENDS_WITH]-()) AS friends
+ORDER BY friends DESC
+"
+```
+
+### Query
+```{r, echo=FALSE}
+cat(query)
+```
+
+### Result
+```{r, echo=FALSE}
+print(cypher(graph, query), row.names = F)
+```
+
+
 The COLLECT Function
 ========================================================
 
@@ -605,7 +664,7 @@ query =
 "MATCH (alice:User)-[r:LIKED|CHECKED_INTO]->(place:Place),
       (place)-[:IN_CATEGORY]->(c:Category)
 WHERE alice.name = 'Alice' AND c.name = 'Fast Food'
-RETURN place.name AS place, TYPE(r) AS type
+RETURN place.name AS place, COLLECT(TYPE(r)) AS type
 "
 ```
 
@@ -704,7 +763,7 @@ print(cypher(graph, query), row.names = F)
 Dealing with NULL Values
 ========================================================
 
-**Fast food places that Alice has either liked or checked into and the score she gave them, if any.**
+**Fast food places that Alice has either liked or checked into.**
 
 ```{r, echo=FALSE}
 query = 
@@ -727,21 +786,6 @@ data[is.na(data)] = "null"
 print(data, row.names = F)
 ```
 
-Dealing with NULL Values
-========================================================
-
-**Fast food places that Alice has either liked or checked into and the score she gave them, if any.**
-
-```{r, echo=FALSE}
-query = 
-"MATCH (alice:User)-[r:LIKED|CHECKED_INTO]->(place:Place),
-      (place)-[:IN_CATEGORY]->(c:Category)
-WHERE alice.name = 'Alice' AND c.name = 'Fast Food'
-RETURN place.name AS place, 
-       COALESCE(r.score, 'No Score') AS score
-"
-```
-
 ### Query
 ```{r, echo=FALSE}
 cat(query)
@@ -755,7 +799,7 @@ print(cypher(graph, query), row.names = F)
 Dealing with NULL Values
 ========================================================
 
-**Fast food places that Alice has either liked or checked into and the score she gave them, if any.**
+**Fast food places that Alice has either liked or checked into and the score she gave them.**
 
 ```{r, echo=FALSE}
 query = 
@@ -764,7 +808,7 @@ query =
 WHERE alice.name = 'Alice' AND c.name = 'Fast Food'
 RETURN place.name AS place, 
        TYPE(r) AS action, 
-       COALESCE(r.score, 'No Score') AS score
+       r.score AS score
 "
 ```
 
@@ -775,7 +819,9 @@ cat(query)
 
 ### Result
 ```{r, echo=FALSE}
-print(cypher(graph, query), row.names = F)
+data = cypher(graph, query)
+data[is.na(data)] = "null"
+print(data, row.names = F)
 ```
 
 Paths

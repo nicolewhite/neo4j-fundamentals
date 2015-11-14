@@ -6,7 +6,7 @@ width: 1400
 height: 1000
 
 ```{r, echo=FALSE}
-WORKING_DIRECTORY = "/Users/nicolewhite/GitHub/neo4j-presentations/Fundamentals/csv"
+WORKING_DIRECTORY = "/Users/nicolewhite/GitHub/neo4j-presentations/Fundamentals/"
 ```
 
 
@@ -645,7 +645,7 @@ query =
 "MATCH (alice:User)-[r:LIKED|CHECKED_INTO]->(place:Place),
       (place)-[:IN_CATEGORY]->(c:Category)
 WHERE alice.name = 'Alice' AND c.name = 'Fast Food'
-RETURN place.name AS place, TYPE(r) AS type
+RETURN place.name AS place, COLLECT(TYPE(r)) AS type
 "
 ```
 
