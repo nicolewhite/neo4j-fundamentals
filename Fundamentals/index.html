@@ -794,9 +794,9 @@ hljs.initHighlightingOnLoad();
 <section data-transition="linear" data-transition-speed="default">
 <h3>Today&#x27;s Data and Slides</h3>
 <div class="slideContent" >
-<h1>bit.ly/dfw_data</h1>
+<h1>bit.ly/dfw-data</h1>
 
-<h1>bit.ly/dfw_slides</h1>
+<h1>bit.ly/dfw-slides</h1>
 
 </div>
 
@@ -1045,10 +1045,10 @@ RETURN p.name AS barbecue
 <h3>Results</h3>
 
 <pre><code>                barbecue
-        Cousin&#39;s Bar-B-Q
  The Salt Lick Bar-B-Que
             Railhead BBQ
    Dickey&#39;s Barbecue Pit
+        Cousin&#39;s Bar-B-Q
 </code></pre>
 
 </div>
@@ -1068,10 +1068,10 @@ RETURN p.name AS barbecue
 <h3>Result</h3>
 
 <pre><code>                barbecue
-        Cousin&#39;s Bar-B-Q
  The Salt Lick Bar-B-Que
             Railhead BBQ
    Dickey&#39;s Barbecue Pit
+        Cousin&#39;s Bar-B-Q
 </code></pre>
 
 </div>
@@ -1092,17 +1092,17 @@ RETURN p.name AS place, c.name AS category
 <h3>Result</h3>
 
 <pre><code>                            place category
- Texas Stadium Skybox Bar &amp; Grill      Bar
-                        Vino Volo      Bar
                       Cowtown Bar      Bar
+                        Vino Volo      Bar
+     Tigin Irish Pub &amp; Restaurant      Bar
                           Fly Bar      Bar
                 Rider&#39;s World Bar      Bar
+ Texas Stadium Skybox Bar &amp; Grill      Bar
            Gas Monkey Bar &amp; Grill      Bar
-     Tigin Irish Pub &amp; Restaurant      Bar
-                 Cousin&#39;s Bar-B-Q Barbecue
           The Salt Lick Bar-B-Que Barbecue
                      Railhead BBQ Barbecue
             Dickey&#39;s Barbecue Pit Barbecue
+                 Cousin&#39;s Bar-B-Q Barbecue
 </code></pre>
 
 </div>
@@ -1123,17 +1123,17 @@ RETURN p.name AS place, c.name AS category
 <h3>Result</h3>
 
 <pre><code>                            place category
- Texas Stadium Skybox Bar &amp; Grill      Bar
-                        Vino Volo      Bar
                       Cowtown Bar      Bar
+                        Vino Volo      Bar
+     Tigin Irish Pub &amp; Restaurant      Bar
                           Fly Bar      Bar
                 Rider&#39;s World Bar      Bar
+ Texas Stadium Skybox Bar &amp; Grill      Bar
            Gas Monkey Bar &amp; Grill      Bar
-     Tigin Irish Pub &amp; Restaurant      Bar
-                 Cousin&#39;s Bar-B-Q Barbecue
           The Salt Lick Bar-B-Que Barbecue
                      Railhead BBQ Barbecue
             Dickey&#39;s Barbecue Pit Barbecue
+                 Cousin&#39;s Bar-B-Q Barbecue
 </code></pre>
 
 </div>
@@ -1249,15 +1249,15 @@ RETURN p.name AS place, g.number AS gate
 <h3>Result</h3>
 
 <pre><code>                            place gate
- Texas Stadium Skybox Bar &amp; Grill    6
- Texas Stadium Skybox Bar &amp; Grill   25
+                      Cowtown Bar   35
                         Vino Volo   27
                         Vino Volo   17
-                      Cowtown Bar   35
+     Tigin Irish Pub &amp; Restaurant   20
                           Fly Bar   27
                 Rider&#39;s World Bar   15
+ Texas Stadium Skybox Bar &amp; Grill    6
+ Texas Stadium Skybox Bar &amp; Grill   25
            Gas Monkey Bar &amp; Grill   31
-     Tigin Irish Pub &amp; Restaurant   20
 </code></pre>
 
 </div>
@@ -1398,10 +1398,10 @@ RETURN p.name AS place
 <h3>Result</h3>
 
 <pre><code>           place
- Cool River Cafe
- T.G.I. Friday&#39;s
-     Burger King
       Manchu Wok
+     Burger King
+ T.G.I. Friday&#39;s
+ Cool River Cafe
 </code></pre>
 
 </div>
@@ -1510,10 +1510,10 @@ ORDER BY friends DESC
 <h3>Result</h3>
 
 <pre><code>    user friends          friends_names
-    Hank       3   David, Alice, Elaine
-   Alice       3 Forrest, Charles, Hank
+    Hank       3   Alice, David, Elaine
+   Alice       3 Hank, Forrest, Charles
   Elaine       2          Forrest, Hank
- Forrest       2          Alice, Elaine
+ Forrest       2          Elaine, Alice
    David       1                   Hank
  Charles       1                  Alice
      Bob       0                       
@@ -1620,9 +1620,9 @@ ORDER BY score DESC
 <h3>Result</h3>
 
 <pre><code>             place score
-   Cool River Cafe     4
- Pizza Hut Express     4
         Manchu Wok     4
+ Pizza Hut Express     4
+   Cool River Cafe     4
    T.G.I. Friday&#39;s     2
        Burger King     1
 </code></pre>
@@ -1685,11 +1685,11 @@ RETURN u.name AS user, p.name AS place
 
 <pre><code>    user                         place
    David               Boars Head Deli
- Forrest              Power &amp; Internet
  Forrest    Pappadeaux Seafood Kitchen
+ Forrest              Power &amp; Internet
      Ian                     Cereality
-     Jan                   Jamba Juice
      Jan Freshens Smoothies and Yogurt
+     Jan                   Jamba Juice
 </code></pre>
 
 </div>
