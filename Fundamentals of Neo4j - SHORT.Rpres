@@ -19,9 +19,8 @@ commit(tx)
 Today's Data and Slides
 ========================================================
 
-# bit.ly/dfw-data
-
-# bit.ly/dfw-slides
+# `bit.ly/dfw-data`
+# `bit.ly/dfw-slides-short`
 
 Setup
 ========================================================
@@ -1146,23 +1145,22 @@ title: false
 
 # Cypher: LOAD CSV
 
-```{r, echo=FALSE}
-clear(graph, input = F)
-```
-
 Setup
 ========================================================
+
+### CSVs
+The CSV files are in the `csv` directory.
 
 ### Clear Your DB
 ```{r, echo=FALSE}
 query = 
-"MATCH (n) OPTIONAL MATCH (n)-[r]-() DELETE n, r
+"MATCH (n) DETACH DELETE n;
 "
 ```
 
 ```{r, echo=FALSE}
 cat(query)
-invisible(cypher(graph, query))
+clear(graph, input=F)
 ```
 
 ### Filepaths
@@ -1172,6 +1170,10 @@ invisible(cypher(graph, query))
 
 #### Windows
 `file:C:/path/to/data.csv`
+
+```{r, echo=FALSE}
+FILEPATH = paste0("file://", getwd(), "/csv/")
+```
 
 Uniqueness Constraints & Indexes
 ========================================================
@@ -1210,7 +1212,7 @@ MERGE (:Gate {number: TOINT(line.gate )})-[:IN_TERMINAL]->(t);
 ### Query
 ```{r, echo=FALSE}
 cat(query)
-invisible(cypher(graph, query, filepath=paste0("file://", getwd(), "/csv/gates_terminals.csv")))
+invisible(cypher(graph, query, filepath=paste0(FILEPATH, "gates_terminals.csv")))
 ```
 
 Places
@@ -1231,7 +1233,7 @@ MERGE (place)-[:AT_GATE]->(gate);
 ### Query
 ```{r, echo=FALSE}
 cat(query)
-invisible(cypher(graph, query, filepath=paste0("file://", getwd(), "/csv/places.csv")))
+invisible(cypher(graph, query, filepath=paste0(FILEPATH, "places.csv")))
 ```
 
 Users
@@ -1249,7 +1251,7 @@ MERGE (:User {name: line.user })
 ### Query
 ```{r, echo=FALSE}
 cat(query)
-invisible(cypher(graph, query, filepath=paste0("file://", getwd(), "/csv/users.csv")))
+invisible(cypher(graph, query, filepath=paste0(FILEPATH, "users.csv")))
 ```
 
 Friends
@@ -1269,7 +1271,7 @@ MERGE (a)-[:FRIENDS_WITH]-(b);
 ### Query
 ```{r, echo=FALSE}
 cat(query)
-invisible(cypher(graph, query, filepath=paste0("file://", getwd(), "/csv/friends.csv")))
+invisible(cypher(graph, query, filepath=paste0(FILEPATH, "friends.csv")))
 ```
 
 Check-Ins
@@ -1289,7 +1291,7 @@ MERGE (user)-[:CHECKED_INTO]->(place);
 ### Query
 ```{r, echo=FALSE}
 cat(query)
-invisible(cypher(graph, query, filepath=paste0("file://", getwd(), "/csv/check_ins.csv")))
+invisible(cypher(graph, query, filepath=paste0(FILEPATH, "check_ins.csv")))
 ```
 
 Likes
@@ -1310,7 +1312,7 @@ SET r.score = TOINT(line.score);
 ### Query
 ```{r, echo=FALSE}
 cat(query)
-invisible(cypher(graph, query, filepath=paste0("file://", getwd(), "/csv/likes.csv")))
+invisible(cypher(graph, query, filepath=paste0(FILEPATH, "likes.csv")))
 ```
 
 Lab
@@ -1329,7 +1331,7 @@ Lab
 query = 
 "LOAD CSV WITH HEADERS FROM {filepath} AS line
 MATCH (place:Place {name: line.place })
-MERGE (category:Category {name: line.category})
+MATCH (category:Category {name: line.category})
 MERGE (place)-[:IN_CATEGORY]->(category)
 "
 ```
@@ -1337,5 +1339,5 @@ MERGE (place)-[:IN_CATEGORY]->(category)
 ### Query
 ```{r, echo=FALSE}
 cat(query)
-invisible(cypher(graph, query, filepath=paste0("file://", getwd(), "/csv/categories.csv")))
+invisible(cypher(graph, query, filepath=paste0(FILEPATH, "categories.csv")))
 ```
