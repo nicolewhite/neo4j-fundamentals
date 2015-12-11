@@ -17,26 +17,11 @@ appendCypher(tx, data)
 commit(tx)
 ```
 
-Setup
+Today's Data & Slides
 ========================================================
 
-- Go to `neo4j.com`
-- Click on Download Neo4j
-- Download the Community Edition
-
-### Mac
-
-- Unzip the `.tar.gz` file (double-click it)
-- `cd` to the extracted directory in the Terminal
-- Execute `./bin/neo4j start`
-- Go to `localhost:7474` in your browser
-
-### Windows
-
-- Double-click the downloaded `.exe` file
-- Run Neo4j after installation finishes
-- Click Start
-- Go to `localhost:7474` in your browser
+# `bit.ly/dfw-data`
+# `bit.ly/dfw-slides-long`
 
 Agenda
 ========================================================
@@ -46,12 +31,6 @@ Agenda
 - Cypher: Create, Merge & Delete
 - Cypher: Constraints & Indexes
 - Cypher: LOAD CSV
-
-Today's Data & Slides
-========================================================
-
-# `bit.ly/dfw-data`
-# `bit.ly/dfw-slides-long`
 
 Section Header
 ========================================================
@@ -250,6 +229,50 @@ cat(query)
 print(cypher(graph, query), row.names = F)
 ```
 
+Regular Expressions
+========================================================
+
+**Names of bar or barbecue places.**
+
+```{r, echo=FALSE}
+query = 
+"MATCH (p:Place)-[:IN_CATEGORY]->(c:Category)
+WHERE c.name =~ 'Bar.*'
+RETURN p.name AS place, c.name AS category"
+```
+
+### Query
+```{r, echo=FALSE}
+cat(query)
+```
+
+### Result
+```{r, echo=FALSE}
+print(cypher(graph, query), row.names = F)
+```
+
+The STARTS WITH Clause
+========================================================
+
+**Names of bar or barbecue places.**
+
+```{r, echo=FALSE}
+query = 
+"MATCH (p:Place)-[:IN_CATEGORY]->(c:Category)
+WHERE c.name STARTS WITH 'Bar'
+RETURN p.name AS place, c.name AS category"
+```
+
+### Query
+```{r, echo=FALSE}
+cat(query)
+```
+
+### Result
+```{r, echo=FALSE}
+print(cypher(graph, query), row.names = F)
+```
+
 Aggregation
 ========================================================
 
@@ -318,28 +341,6 @@ cat(query)
 ```
 
 ### Result
-```{r, echo=FALSE}
-print(cypher(graph, query), row.names = F)
-```
-
-Regular Expressions
-========================================================
-
-**Names of bar or barbecue places.**
-
-```{r, echo=FALSE}
-query = 
-"MATCH (p:Place)-[:IN_CATEGORY]->(c:Category)
-WHERE c.name =~ 'Bar.*'
-RETURN p.name AS place, c.name AS category"
-```
-
-### Query
-```{r, echo=FALSE}
-cat(query)
-```
-
-### Results
 ```{r, echo=FALSE}
 print(cypher(graph, query), row.names = F)
 ```
@@ -456,7 +457,7 @@ print(cypher(graph, query), row.names = F)
 Negating Patterns in the WHERE Clause
 ========================================================
 
-**Users who have both liked Blimpie but are not friends.**
+**Pairs of users who have both liked Blimpie but are not friends.**
 
 ```{r, echo=FALSE}
 query = 
@@ -544,6 +545,27 @@ cat(query)
 ```{r, echo=FALSE}
 print(cypher(graph, query), row.names = F)
 ```
+
+The SIZE Function
+========================================================
+
+```{r, echo=FALSE}
+query = "MATCH (u:User)
+RETURN u.name AS user, SIZE((u)-[:FRIENDS_WITH]-()) AS friends
+ORDER BY friends DESC
+"
+```
+
+### Query
+```{r, echo=FALSE}
+cat(query)
+```
+
+### Result
+```{r, echo=FALSE}
+print(cypher(graph, query), row.names = F)
+```
+
 
 The COLLECT Function
 ========================================================
@@ -731,10 +753,10 @@ options(digits=3)
 print(cypher(graph, query), row.names = F)
 ```
 
-Dealing with NULL Values
+Dealing with Nonexistent Properties
 ========================================================
 
-**Fast food places that Alice has either liked or checked into and the score she gave them, if any.**
+**Fast food places that Alice has either liked or checked into.**
 
 ```{r, echo=FALSE}
 query = 
@@ -757,35 +779,10 @@ data[is.na(data)] = "null"
 print(data, row.names = F)
 ```
 
-Dealing with NULL Values
+Dealing with Nonexistent Properties
 ========================================================
 
-**Fast food places that Alice has either liked or checked into and the score she gave them, if any.**
-
-```{r, echo=FALSE}
-query = 
-"MATCH (alice:User)-[r:LIKED|CHECKED_INTO]->(place:Place),
-      (place)-[:IN_CATEGORY]->(c:Category)
-WHERE alice.name = 'Alice' AND c.name = 'Fast Food'
-RETURN place.name AS place, 
-       COALESCE(r.score, 'No Score') AS score
-"
-```
-
-### Query
-```{r, echo=FALSE}
-cat(query)
-```
-
-### Result
-```{r, echo=FALSE}
-print(cypher(graph, query), row.names = F)
-```
-
-Dealing with NULL Values
-========================================================
-
-**Fast food places that Alice has either liked or checked into and the score she gave them, if any.**
+**Fast food places that Alice has either liked or checked into and the score she gave them.**
 
 ```{r, echo=FALSE}
 query = 
@@ -794,7 +791,7 @@ query =
 WHERE alice.name = 'Alice' AND c.name = 'Fast Food'
 RETURN place.name AS place, 
        TYPE(r) AS action, 
-       COALESCE(r.score, 'No Score') AS score
+       r.score AS score
 "
 ```
 
@@ -805,7 +802,9 @@ cat(query)
 
 ### Result
 ```{r, echo=FALSE}
-print(cypher(graph, query), row.names = F)
+data = cypher(graph, query)
+data[is.na(data)] = "null"
+print(data, row.names = F)
 ```
 
 Paths
@@ -1204,8 +1203,7 @@ The DELETE Clause
 ```{r, echo=FALSE}
 query = 
 "MATCH (ian:User {name:'Ian'})
-OPTIONAL MATCH (ian)-[allrels]-()
-DELETE allrels, ian
+DETACH DELETE ian;
 "
 ```
 
