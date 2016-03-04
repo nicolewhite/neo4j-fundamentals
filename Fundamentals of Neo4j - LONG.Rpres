@@ -1468,7 +1468,7 @@ Lab
 query = 
 "LOAD CSV WITH HEADERS FROM {filepath} AS line
 MATCH (place:Place {name: line.place })
-MATCH (category:Category {name: line.category})
+MERGE (category:Category {name: line.category})
 MERGE (place)-[:IN_CATEGORY]->(category)
 "
 ```
