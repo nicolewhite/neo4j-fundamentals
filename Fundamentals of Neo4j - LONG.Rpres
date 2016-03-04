@@ -15,6 +15,21 @@ clear(graph, input = F)
 tx = newTransaction(graph)
 appendCypher(tx, data)
 commit(tx)
+
+printError = function(query) {
+  err = try(cypher(graph, query), silent=T)
+  err = strsplit(err, "\n")[[1]]
+  err = err[3:length(err)]
+  cat(paste(err, collapse="\n"))
+}
+
+printResult = function(query) {
+  print(cypher(graph, query), row.names = F)
+}
+
+testNonTabular = function(query) {
+  invisible(getNodes(graph, query))
+}
 ```
 
 Today's Data & Slides
@@ -183,7 +198,7 @@ cat(query)
 
 ### Results
 ```{r, echo=FALSE}
-print(cypher(graph, query), row.names = F)
+printResult(query)
 ```
 
 The WHERE Clause
@@ -205,7 +220,7 @@ cat(query)
 
 ### Results
 ```{r, echo=FALSE}
-print(cypher(graph, query), row.names = F)
+printResult(query)
 ```
 
 Shorthand WHERE Conditioning
@@ -226,7 +241,7 @@ cat(query)
 
 ### Result
 ```{r, echo=FALSE}
-print(cypher(graph, query), row.names = F)
+printResult(query)
 ```
 
 Regular Expressions
@@ -248,7 +263,7 @@ cat(query)
 
 ### Result
 ```{r, echo=FALSE}
-print(cypher(graph, query), row.names = F)
+printResult(query)
 ```
 
 The STARTS WITH Clause
@@ -270,7 +285,7 @@ cat(query)
 
 ### Result
 ```{r, echo=FALSE}
-print(cypher(graph, query), row.names = F)
+printResult(query)
 ```
 
 Aggregation
@@ -291,7 +306,7 @@ cat(query)
 
 ### Result
 ```{r, echo=FALSE}
-print(cypher(graph, query), row.names = F)
+printResult(query)
 ```
 
 The ORDER BY and LIMIT Clauses
@@ -314,7 +329,7 @@ cat(query)
 
 ### Result
 ```{r, echo=FALSE}
-print(cypher(graph, query), row.names = F)
+printResult(query)
 ```
 
 Lab
@@ -342,7 +357,7 @@ cat(query)
 
 ### Result
 ```{r, echo=FALSE}
-print(cypher(graph, query), row.names = F)
+printResult(query)
 ```
 
 Multiple Patterns in the MATCH Clause
@@ -366,7 +381,7 @@ cat(query)
 
 ### Result
 ```{r, echo=FALSE}
-print(cypher(graph, query), row.names = F)
+printResult(query)
 ```
 
 Multiple Patterns in the MATCH Clause
@@ -392,7 +407,7 @@ cat(query)
 
 ### Result
 ```{r, echo=FALSE}
-print(cypher(graph, query), row.names = F)
+printResult(query)
 ```
 
 Multiple Patterns in the MATCH Clause
@@ -421,7 +436,7 @@ cat(query)
 
 ### Result
 ```{r, echo=FALSE}
-print(cypher(graph, query), row.names = F)
+printResult(query)
 ```
 
 Lab
@@ -451,7 +466,7 @@ cat(query)
 
 ### Result
 ```{r, echo=FALSE}
-print(cypher(graph, query), row.names = F)
+printResult(query)
 ```
 
 Negating Patterns in the WHERE Clause
@@ -470,7 +485,7 @@ RETURN u1, u2, p
 ### Query
 ```{r, echo=FALSE}
 cat(query)
-invisible(getNodes(graph, query))
+testNonTabular(query)
 ```
 
 Lab
@@ -498,7 +513,7 @@ cat(query)
 
 ### Result
 ```{r, echo=FALSE}
-print(cypher(graph, query), row.names = F)
+printResult(query)
 ```
 
 The OPTIONAL MATCH Clause
@@ -520,7 +535,7 @@ cat(query)
 
 ### Result
 ```{r, echo=FALSE}
-print(cypher(graph, query), row.names = F)
+printResult(query)
 ```
 
 The OPTIONAL MATCH Clause
@@ -543,7 +558,7 @@ cat(query)
 
 ### Result
 ```{r, echo=FALSE}
-print(cypher(graph, query), row.names = F)
+printResult(query)
 ```
 
 The SIZE Function
@@ -563,7 +578,7 @@ cat(query)
 
 ### Result
 ```{r, echo=FALSE}
-print(cypher(graph, query), row.names = F)
+printResult(query)
 ```
 
 
@@ -589,9 +604,7 @@ cat(query)
 
 ### Result
 ```{r, echo=FALSE}
-data = cypher(graph, query)
-data[7:10, 3] = ""
-print(data, row.names = F)
+printResult(query)
 ```
 
 The WITH Clause
@@ -617,7 +630,7 @@ cat(query)
 
 ### Result
 ```{r, echo=FALSE}
-print(cypher(graph, query), row.names = F)
+printResult(query)
 ```
 
 The WITH Clause
@@ -644,7 +657,7 @@ cat(query)
 
 ### Result
 ```{r, echo=FALSE}
-print(cypher(graph, query), row.names = F)
+printResult(query)
 ```
 
 OR with Relationship Types
@@ -668,7 +681,7 @@ cat(query)
 
 ### Result
 ```{r, echo=FALSE}
-print(cypher(graph, query), row.names = F)
+printResult(query)
 ```
 
 Relationship Properties
@@ -692,7 +705,7 @@ cat(query)
 
 ### Result
 ```{r, echo=FALSE}
-print(cypher(graph, query), row.names = F)
+printResult(query)
 ```
 
 Recommendations
@@ -721,7 +734,7 @@ cat(query)
 
 ### Result
 ```{r, echo=FALSE}
-print(cypher(graph, query), row.names = F)
+printResult(query)
 ```
 
 Lab
@@ -750,7 +763,7 @@ cat(query)
 ### Result
 ```{r, echo=FALSE}
 options(digits=3)
-print(cypher(graph, query), row.names = F)
+printResult(query)
 ```
 
 Dealing with Nonexistent Properties
@@ -774,9 +787,7 @@ cat(query)
 
 ### Result
 ```{r, echo=FALSE}
-data = cypher(graph, query)
-data[is.na(data)] = "null"
-print(data, row.names = F)
+printResult(query)
 ```
 
 Dealing with Nonexistent Properties
@@ -802,9 +813,7 @@ cat(query)
 
 ### Result
 ```{r, echo=FALSE}
-data = cypher(graph, query)
-data[is.na(data)] = "null"
-print(data, row.names = F)
+printResult(query)
 ```
 
 Paths
@@ -826,7 +835,7 @@ cat(query)
 ```
 
 ```{r, echo=FALSE}
-invisible(getPaths(graph, query))
+testNonTabular(query)
 ```
 
 Paths
@@ -849,7 +858,7 @@ cat(query)
 
 ### Result
 ```{r, echo=FALSE}
-print(cypher(graph, query), row.names = F)
+printResult(query)
 ```
 
 Paths
@@ -873,7 +882,7 @@ cat(query)
 
 ### Result
 ```{r, echo=FALSE}
-print(cypher(graph, query), row.names = F)
+printResult(query)
 ```
 
 Paths
@@ -897,7 +906,7 @@ cat(query)
 
 ### Result
 ```{r, echo=FALSE}
-print(cypher(graph, query), row.names = F)
+printResult(query)
 ```
 
 Paths
@@ -921,7 +930,7 @@ cat(query)
 
 ### Result
 ```{r, echo=FALSE}
-print(cypher(graph, query), row.names = F)
+printResult(query)
 ```
 
 Collection Predicates
@@ -947,7 +956,7 @@ cat(query)
 
 ### Result
 ```{r, echo=FALSE}
-print(cypher(graph, query), row.names = F)
+printResult(query)
 ```
 
 Collection Predicates
@@ -975,7 +984,7 @@ cat(query)
 
 ### Result
 ```{r, echo=FALSE}
-print(cypher(graph, query), row.names = F)
+printResult(query)
 ```
 
 Shortest Path
@@ -994,7 +1003,7 @@ RETURN p
 ### Query
 ```{r, echo=FALSE}
 cat(query)
-invisible(getPaths(graph, query))
+testNonTabular(query)
 ```
 
 Shortest Path
@@ -1013,7 +1022,7 @@ RETURN p
 ### Query
 ```{r, echo=FALSE}
 cat(query)
-invisible(getPaths(graph, query))
+testNonTabular(query)
 ```
 
 All Shortest Paths
@@ -1032,7 +1041,7 @@ RETURN p
 ### Query
 ```{r, echo=FALSE}
 cat(query)
-invisible(getPaths(graph, query))
+testNonTabular(query)
 ```
 
 Lab
@@ -1057,7 +1066,7 @@ RETURN p
 ### Query
 ```{r, echo=FALSE}
 cat(query)
-invisible(getPaths(graph, query))
+testNonTabular(query)
 ```
 
 Section Header
@@ -1081,7 +1090,7 @@ RETURN p
 ### Query
 ```{r, echo=FALSE}
 cat(query)
-invisible(getNodes(graph, query))
+testNonTabular(query)
 ```
 
 The MATCH and CREATE Clauses
@@ -1101,7 +1110,7 @@ RETURN p, g, t
 ### Query
 ```{r, echo=FALSE}
 cat(query)
-invisible(getNodes(graph, query))
+testNonTabular(query)
 ```
 
 The MATCH and CREATE Clauses
@@ -1121,7 +1130,7 @@ RETURN p, c
 ### Query
 ```{r, echo=FALSE}
 cat(query)
-invisible(getNodes(graph, query))
+testNonTabular(query)
 ```
 
 The MERGE Clause
@@ -1147,7 +1156,7 @@ cat(query)
 ### Result
 ```{r, echo=FALSE}
 options(digits=20)
-print(cypher(graph, query), row.names = F)
+printResult(query)
 ```
 
 The MATCH and MERGE Clauses
@@ -1167,7 +1176,7 @@ RETURN user, place
 ### Query
 ```{r, echo=FALSE}
 cat(query)
-invisible(getNodes(graph, query))
+testNonTabular(query)
 ```
 
 The MATCH and MERGE Clauses
@@ -1192,7 +1201,7 @@ cat(query)
 
 ### Result
 ```{r, echo=FALSE}
-print(cypher(graph, query), row.names = F)
+printResult(query)
 ```
 
 The DELETE Clause
@@ -1210,7 +1219,7 @@ DETACH DELETE ian;
 ### Query
 ```{r, echo=FALSE}
 cat(query)
-invisible(cypher(graph, query))
+testNonTabular(query)
 ```
 
 Section Header
@@ -1252,13 +1261,40 @@ query = "CREATE (:User {name:'Your Name'})"
 ### Query
 ```{r, echo=FALSE}
 cat(query)
-d = try(cypher(graph, query), silent=T)
-cat(substring(d, 1, 112))
+printError(query)
 ```
 
 ### Notes
 - If you followed along and already created a User node with your name, this will result in an error
 - Use the `MERGE` clause instead
+
+The MERGE Clause
+========================================================
+
+The `MERGE` clause is *all or nothing.* If the entire pattern doesn't exist, it attemps to create the entire pattern specified.
+
+What do you think will happen with the following?
+
+```{r, echo=FALSE}
+query = 
+"MERGE (u:User {name:'Your Name', age:99})
+"
+```
+
+### Query
+```{r, echo=FALSE}
+cat(query)
+```
+
+The MERGE Clause
+========================================================
+
+When it was determined that a `:User` node with `name:"Your Name"` and `age:99` doesn't exist, it tried to creat the *entire* node specified. This is when the uniqueness constraint is violated, because a `:User` node with `name:"Your Name"` already exists.
+
+### Result
+```{r, echo=FALSE}
+printError(query)
+```
 
 Add an Index
 ========================================================
@@ -1286,7 +1322,7 @@ Setup
 ========================================================
 
 ### CSVs
-The CSV files are in the `csv` directory.
+#### `bit.ly/dfw-csv`
 
 ### Clear Your DB
 ```{r, echo=FALSE}
