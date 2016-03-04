@@ -1036,10 +1036,10 @@ RETURN p.name AS barbecue
 <h3>Results</h3>
 
 <pre><code>                barbecue
-   Dickey&#39;s Barbecue Pit
-            Railhead BBQ
-        Cousin&#39;s Bar-B-Q
  The Salt Lick Bar-B-Que
+   Dickey&#39;s Barbecue Pit
+        Cousin&#39;s Bar-B-Q
+            Railhead BBQ
 </code></pre>
 
 </div>
@@ -1059,10 +1059,10 @@ RETURN p.name AS barbecue
 <h3>Result</h3>
 
 <pre><code>                barbecue
-   Dickey&#39;s Barbecue Pit
-            Railhead BBQ
-        Cousin&#39;s Bar-B-Q
  The Salt Lick Bar-B-Que
+   Dickey&#39;s Barbecue Pit
+        Cousin&#39;s Bar-B-Q
+            Railhead BBQ
 </code></pre>
 
 </div>
@@ -1085,15 +1085,15 @@ RETURN p.name AS place, c.name AS category
 <pre><code>                            place category
                 Rider&#39;s World Bar      Bar
                           Fly Bar      Bar
-           Gas Monkey Bar &amp; Grill      Bar
-     Tigin Irish Pub &amp; Restaurant      Bar
- Texas Stadium Skybox Bar &amp; Grill      Bar
-                        Vino Volo      Bar
                       Cowtown Bar      Bar
-            Dickey&#39;s Barbecue Pit Barbecue
-                     Railhead BBQ Barbecue
-                 Cousin&#39;s Bar-B-Q Barbecue
+                        Vino Volo      Bar
+ Texas Stadium Skybox Bar &amp; Grill      Bar
+     Tigin Irish Pub &amp; Restaurant      Bar
+           Gas Monkey Bar &amp; Grill      Bar
           The Salt Lick Bar-B-Que Barbecue
+            Dickey&#39;s Barbecue Pit Barbecue
+                 Cousin&#39;s Bar-B-Q Barbecue
+                     Railhead BBQ Barbecue
 </code></pre>
 
 </div>
@@ -1116,15 +1116,15 @@ RETURN p.name AS place, c.name AS category
 <pre><code>                            place category
                 Rider&#39;s World Bar      Bar
                           Fly Bar      Bar
-           Gas Monkey Bar &amp; Grill      Bar
-     Tigin Irish Pub &amp; Restaurant      Bar
- Texas Stadium Skybox Bar &amp; Grill      Bar
-                        Vino Volo      Bar
                       Cowtown Bar      Bar
-            Dickey&#39;s Barbecue Pit Barbecue
-                     Railhead BBQ Barbecue
-                 Cousin&#39;s Bar-B-Q Barbecue
+                        Vino Volo      Bar
+ Texas Stadium Skybox Bar &amp; Grill      Bar
+     Tigin Irish Pub &amp; Restaurant      Bar
+           Gas Monkey Bar &amp; Grill      Bar
           The Salt Lick Bar-B-Que Barbecue
+            Dickey&#39;s Barbecue Pit Barbecue
+                 Cousin&#39;s Bar-B-Q Barbecue
+                     Railhead BBQ Barbecue
 </code></pre>
 
 </div>
@@ -1242,13 +1242,13 @@ RETURN p.name AS place, g.number AS gate
 <pre><code>                            place gate
                 Rider&#39;s World Bar   15
                           Fly Bar   27
-           Gas Monkey Bar &amp; Grill   31
-     Tigin Irish Pub &amp; Restaurant   20
- Texas Stadium Skybox Bar &amp; Grill    6
- Texas Stadium Skybox Bar &amp; Grill   25
-                        Vino Volo   17
-                        Vino Volo   27
                       Cowtown Bar   35
+                        Vino Volo   27
+                        Vino Volo   17
+ Texas Stadium Skybox Bar &amp; Grill   25
+ Texas Stadium Skybox Bar &amp; Grill    6
+     Tigin Irish Pub &amp; Restaurant   20
+           Gas Monkey Bar &amp; Grill   31
 </code></pre>
 
 </div>
@@ -1276,11 +1276,11 @@ ORDER BY place
                           Fly Bar   27        E
            Gas Monkey Bar &amp; Grill   31        D
                 Rider&#39;s World Bar   15        E
- Texas Stadium Skybox Bar &amp; Grill    6        B
  Texas Stadium Skybox Bar &amp; Grill   25        C
+ Texas Stadium Skybox Bar &amp; Grill    6        B
      Tigin Irish Pub &amp; Restaurant   20        D
-                        Vino Volo   17        A
                         Vino Volo   27        E
+                        Vino Volo   17        A
 </code></pre>
 
 </div>
@@ -1389,10 +1389,10 @@ RETURN p.name AS place
 <h3>Result</h3>
 
 <pre><code>           place
-      Manchu Wok
+     Burger King
  T.G.I. Friday&#39;s
  Cool River Cafe
-     Burger King
+      Manchu Wok
 </code></pre>
 
 </div>
@@ -1501,16 +1501,16 @@ ORDER BY friends DESC
 <h3>Result</h3>
 
 <pre><code>    user friends          friends_names
-    Hank       3   David, Alice, Elaine
-   Alice       3 Hank, Forrest, Charles
-  Elaine       2          Forrest, Hank
- Forrest       2          Elaine, Alice
+    Hank       3   Elaine, Alice, David
+   Alice       3 Forrest, Charles, Hank
+  Elaine       2          Hank, Forrest
+ Forrest       2          Alice, Elaine
    David       1                   Hank
  Charles       1                  Alice
-     Bob       0                       
-     Jan       0                       
-   Greta       0                       
-     Ian       0                       
+     Bob       0                   NULL
+     Jan       0                   NULL
+   Greta       0                   NULL
+     Ian       0                   NULL
 </code></pre>
 
 </div>
@@ -1611,9 +1611,9 @@ ORDER BY score DESC
 <h3>Result</h3>
 
 <pre><code>             place score
+   Cool River Cafe     4
  Pizza Hut Express     4
         Manchu Wok     4
-   Cool River Cafe     4
    T.G.I. Friday&#39;s     2
        Burger King     1
 </code></pre>
@@ -1679,8 +1679,8 @@ RETURN u.name AS user, p.name AS place
  Forrest    Pappadeaux Seafood Kitchen
  Forrest              Power &amp; Internet
      Ian                     Cereality
-     Jan                   Jamba Juice
      Jan Freshens Smoothies and Yogurt
+     Jan                   Jamba Juice
 </code></pre>
 
 </div>
@@ -1703,9 +1703,9 @@ RETURN place.name AS place, r.score AS score
 
 <pre><code>             place score
        Burger King     1
+        McDonald&#39;s    NA
  Pizza Hut Express     4
- Pizza Hut Express  null
-        McDonald&#39;s  null
+ Pizza Hut Express    NA
 </code></pre>
 
 </div>
@@ -1730,9 +1730,9 @@ RETURN place.name AS place,
 
 <pre><code>             place       action score
        Burger King        LIKED     1
+        McDonald&#39;s CHECKED_INTO    NA
  Pizza Hut Express        LIKED     4
- Pizza Hut Express CHECKED_INTO  null
-        McDonald&#39;s CHECKED_INTO  null
+ Pizza Hut Express CHECKED_INTO    NA
 </code></pre>
 
 </div>
@@ -1768,8 +1768,8 @@ RETURN LENGTH(p) AS path_length
 <h3>Result</h3>
 
 <pre><code> path_length
-           5
            3
+           5
 </code></pre>
 
 </div>
@@ -1791,8 +1791,8 @@ RETURN EXTRACT(x IN NODES(p) | x.name) AS nodes,
 <h3>Result</h3>
 
 <pre><code>                                        nodes path_length
- Charles, Alice, Forrest, Elaine, Hank, David           5
                   Charles, Alice, Hank, David           3
+ Charles, Alice, Forrest, Elaine, Hank, David           5
 </code></pre>
 
 </div>
@@ -1836,8 +1836,8 @@ RETURN EXTRACT(x IN NODES(p) | x.name) AS nodes,
 <h3>Result</h3>
 
 <pre><code>                                        nodes path_length
- Charles, Alice, Forrest, Elaine, Hank, David           5
                   Charles, Alice, Hank, David           3
+ Charles, Alice, Forrest, Elaine, Hank, David           5
 </code></pre>
 
 </div>
@@ -2035,7 +2035,7 @@ RETURN u.name, u.created, u.accessed
 <h3>Result</h3>
 
 <pre><code>    u.name     u.created u.accessed
- Your Name 1449808259405          0
+ Your Name 1457128634616          0
 </code></pre>
 
 </div>
@@ -2137,9 +2137,7 @@ DETACH DELETE ian;
 <pre><code>CREATE (:User {name:&#39;Your Name&#39;})
 </code></pre>
 
-<pre><code>Error : client error: (400) Bad Request
-Neo.ClientError.Schema.ConstraintViolation
-Node 5554 already exists with
+<pre><code>Node 34550 already exists with label User and property &quot;name&quot;=[Your Name]
 </code></pre>
 
 <h3>Notes</h3>
@@ -2148,6 +2146,34 @@ Node 5554 already exists with
 <li>If you followed along and already created a User node with your name, this will result in an error</li>
 <li>Use the <code>MERGE</code> clause instead</li>
 </ul>
+
+</div>
+
+</section>
+<section data-transition="linear" data-transition-speed="default">
+<h3>The MERGE Clause</h3>
+<div class="slideContent" >
+<p>The <code>MERGE</code> clause is <em>all or nothing.</em> If the entire pattern doesn&#39;t exist, it attemps to create the entire pattern specified.</p>
+
+<p>What do you think will happen with the following?</p>
+
+<h3>Query</h3>
+
+<pre><code>MERGE (u:User {name:&#39;Your Name&#39;, age:99})
+</code></pre>
+
+</div>
+
+</section>
+<section data-transition="linear" data-transition-speed="default">
+<h3>The MERGE Clause</h3>
+<div class="slideContent" >
+<p>When it was determined that a <code>:User</code> node with <code>name:&quot;Your Name&quot;</code> and <code>age:99</code> doesn&#39;t exist, it tried to creat the <em>entire</em> node specified. This is when the uniqueness constraint is violated, because a <code>:User</code> node with <code>name:&quot;Your Name&quot;</code> already exists.</p>
+
+<h3>Result</h3>
+
+<pre><code>Node 34550 already exists with label User and property &quot;name&quot;=[Your Name]
+</code></pre>
 
 </div>
 
@@ -2182,7 +2208,7 @@ Node 5554 already exists with
 <div class="slideContent" >
 <h3>CSVs</h3>
 
-<p>The CSV files are in the <code>csv</code> directory.</p>
+<h4><code>bit.ly/dfw-csv</code></h4>
 
 <h3>Clear Your DB</h3>
 
@@ -2334,7 +2360,7 @@ SET r.score = TOINT(line.score);
 
 <pre><code>LOAD CSV WITH HEADERS FROM {filepath} AS line
 MATCH (place:Place {name: line.place })
-MATCH (category:Category {name: line.category})
+MERGE (category:Category {name: line.category})
 MERGE (place)-[:IN_CATEGORY]-&gt;(category)
 </code></pre>
 
